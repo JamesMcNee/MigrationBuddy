@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
-    "build": "rm -rf ./lib && tsc -p . && cp -r src/resources ./lib/ && cp package*.json ./lib/",
+    "build": "rm -rf ./lib && tsc -p . && cp -r src/resources ./lib/ && cp package*.json ./lib/ && cp README.md ./lib/",
     "install:local": "sudo npm rm migrationbuddy -g && npm run build && (cd lib && sudo npm link)",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
