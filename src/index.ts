@@ -6,7 +6,7 @@ import {Configuration, EndpointConfiguration} from "./model/configuration/config
 import {ServiceComparator} from "./service-comparator";
 
 const clear = require('clear');
-const packageJson = require('../package.json');
+const packageJson = require('./package.json');
 const exampleConfig = require('./resources/mibration-buddy-config.json');
 const fs = require('fs');
 const cliProgress = require('cli-progress');

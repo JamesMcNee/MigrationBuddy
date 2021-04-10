@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to Migration Buddy 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-0.1.2-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://badge.fury.io/js/migrationbuddy.svg" />
   <a href="https://github.com/JamesMcNee/MigrationBuddy#readme" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
