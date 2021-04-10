@@ -34,7 +34,9 @@ jobs:
       - uses: actions/download-artifact@v2.0.9
         with:
           name: lib
-          path: ./
-      - run: npm publish
+          path: ./out
+      - name: publish
+        working-directory: ./app
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
