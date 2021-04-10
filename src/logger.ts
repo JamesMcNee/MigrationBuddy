@@ -8,11 +8,24 @@ export class Logger {
     };
 
     static banner(message: string) {
-        this.log(figlet.textSync(message, {font: 'small', horizontalLayout: 'full'}), 'blueBright')
+        this.logColour('blueBright', figlet.textSync(message, {font: 'small', horizontalLayout: 'full'}));
     }
 
-    static log(message: string, color: 'white' | 'blueBright' = 'white'): void {
-        console.log(chalk`{${color} ${message}}`);
+    static error(...message: string[]) {
+        this.logColour('red', `ERROR: ${message[0]}`, ...message.slice(1));
+    }
+
+    static log(...message: string[]): void {
+        this.logColour('white', ...message);
+    }
+
+    static logColour(color: 'white' | 'blue' | 'blueBright' | 'red' | 'redBright' = 'white', ...message: string[]): void {
+        const string = message.reduce((prev, current) => {
+            const currentString = typeof current === 'object' ? JSON.stringify(current, null, 2) : current;
+            return `${prev}${!!prev ? '\n' : ''}${currentString}`;
+        }, '');
+
+        console.log(chalk`{${color} ${string}}`);
     }
 
 }

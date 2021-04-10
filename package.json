@@ -8,8 +8,8 @@
   },
   "scripts": {
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
-    "build": "tsc -p .",
-    "install:local": "npm run build && (cd lib && npm link)",
+    "build": "rm -rf ./lib && tsc -p . && cp -r src/resources ./lib",
+    "install:local": "sudo npm rm migrationbuddy -g && npm run build && (cd lib && sudo npm link)",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
   "keywords": [
@@ -21,7 +21,8 @@
   "author": "James McNee",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.2",
+    "ajv": "^8.0.5",
+    "axios": "^0.21.1",
     "chalk": "^4.1.0",
     "clear": "^0.1.0",
     "cli-progress": "^3.8.2",
