@@ -8,7 +8,7 @@
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
   </a>
   <a href="https://github.com/JamesMcNee/MigrationBuddy/blob/master/LICENSE.md" target="_blank">
-    <img alt="License: Unlicence" src="https://img.shields.io/github/license/JamesMcNee/Migration Buddy" />
+    <img alt="License: Unlicence" src="https://img.shields.io/github/license/JamesMcNee/MigrationBuddy" />
   </a>
 </p>
 
