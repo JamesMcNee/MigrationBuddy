@@ -1,0 +1,11 @@
+# Logs
+*.log
+
+# IDE Settings
+.idea
+
+# Dependencies
+node_modules
+
+# Complied code
+lib
