@@ -36,7 +36,7 @@ jobs:
           name: lib
           path: ./out
       - name: publish
-        working-directory: ./app
+        working-directory: ./out
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
