@@ -31,7 +31,10 @@ jobs:
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
+      - uses: actions/download-artifact@v2.0.9
+        with:
+          name: lib
+          path: ./
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
