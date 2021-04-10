@@ -11,7 +11,11 @@ export class Logger {
         this.logColour('blueBright', figlet.textSync(message, {font: 'small', horizontalLayout: 'full'}));
     }
 
-    static error(...message: string[]) {
+    static info(...message: string[]): void {
+        this.logColour('blue', `INFO: ${message[0]}`, ...message.slice(1));
+    }
+
+    static error(...message: string[]): void {
         this.logColour('red', `ERROR: ${message[0]}`, ...message.slice(1));
     }
 
