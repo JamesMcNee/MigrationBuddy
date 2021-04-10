@@ -19,25 +19,25 @@ Logger.linebreak()
 program
     .name('migbuddy')
     .version(packageJson.version)
-    .option('-c, --config <path>', 'Path to configuration file', 'migration-buddy-config.json')
+    .command('compare <config-file>', {isDefault: true})
     .option('-of, --output-file <path>', 'Path to create output file', './migration-buddy-results.json')
     .option('-oc, --output-to-clipboard', 'Output results to clipboard')
-    .option('-v, --verbose', 'Enable verbose logging / responses');
+    .option('-v, --verbose', 'Enable verbose logging / responses')
+    .action((configFilePath, options) => {
+        const configValidator = new ConfigValidator(readConfigFile(configFilePath, options.verbose));
 
-const options = program.opts();
+        const compiledConfig: { data: Configuration | undefined, errors?: any } = configValidator.compile();
 
-const configValidator = new ConfigValidator(exampleConfig);
+        if (!compiledConfig.data) {
+            let message: string = `Configuration failed schema validation!`;
 
-const compiledConfig: { data: Configuration | undefined, errors?: any } = configValidator.compile();
-
-if (!compiledConfig.data) {
-    let message: string = `Configuration failed schema validation!`;
-    if (options.verbose) {
-        Logger.error(message, compiledConfig.errors);
-    } else {
-        Logger.error(message);
-    }
-}
+            if (options.verbose) {
+                Logger.error(message, compiledConfig.errors);
+            } else {
+                Logger.error(message);
+            }
+        }
+    });
 
 program
     .command('generate <destination>')
@@ -53,3 +53,18 @@ program
 
 program
     .parse(process.argv);
+
+function readConfigFile(path: string, verboseLogging: boolean = false): JSON {
+    try {
+        return JSON.parse(fs.readFileSync(path));
+    } catch (e) {
+        let message: string = `Error reading config file. Ensure file exists and is valid JSON.`;
+
+        if (verboseLogging) {
+            Logger.errorWithStack(message, e);
+        } else {
+            Logger.error(message);
+        }
+        process.exit(-1);
+    }
+}

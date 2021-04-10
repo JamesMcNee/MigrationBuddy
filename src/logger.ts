@@ -19,6 +19,11 @@ export class Logger {
         this.logColour('red', `ERROR: ${message[0]}`, ...message.slice(1));
     }
 
+    static errorWithStack(message: string, e: Error) {
+        console.log(chalk`{red ${message}}`);
+        console.log(e);
+    }
+
     static log(...message: string[]): void {
         this.logColour('white', ...message);
     }
