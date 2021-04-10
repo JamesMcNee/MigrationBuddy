@@ -12,9 +12,75 @@
   </a>
 </p>
 
-> Utility to aid in the migration of endpoints (especially useful for cloud migrations)
+## Description + Example
+TL;DR: Utility to aid in the migration of endpoints (especially useful for cloud migrations) by hitting both the old and new service and comparing various properties.
 
-### 🏠 [Homepage](https://github.com/JamesMcNee/MigrationBuddy)
+This utility is aimed at ensuring parity between two `GET` endpoints (and sets of endpoints). For each provided endpoint a request will be made of each of the defined services and properties about the request recorded such as:
+
+- Status code
+- Response time
+- Response body
+
+Using the above a 'report' is generated with the comparison results including a diff of the response bodies.
+
+### Example config:
+```json
+{
+  "endpoints": {
+    "/todos/{id}": {
+      "substitutions": {
+        "id": "john.doe"
+      }
+    }
+  },
+  "configuration": {
+    "control": {
+      "url": "https://my-old-api.tld/api",
+      "headers": {
+        "Authorization": "old-auth"
+      }
+    },
+    "candidate": {
+      "url": "https://my-new-api.tld/api",
+      "headers": {
+        "Authorization": "new-auth"
+      }
+    }
+  }
+}
+```
+
+### Example report/output
+```json
+{
+  "/todos/{id}": {
+    "statusMatch": true,
+    "status": "200 -> 200",
+    "responseTime": "161ms -> 151ms (7% faster)"
+  }
+}
+```
+
+## 🛠 Installation
+This utility is available on NPM! Simply run the following to get started:
+
+`npm install -g migrationbuddy`
+
+## 🚀 Usage
+
+ - Generate a configuration file template/example
+   
+    `migbuddy generate <path/to/write/file.json>`
+- Execute endpoint comparison
+
+    `migbuddy <path/to/config/file.json>`
+    
+    Flags:
+    - `of, --output-file <path>` [Optional] - File to output results JSON to.
+    - `-oc, --output-to-clipboard` [Optional, default false] - Copy the result JSON structure to the clipboard.
+    - `-v, --verbose` [Optional, default false] - Enable verbose logging -- may help to identify errors.
+    - For most up-to-date flags run `migbuddy --help`.
+
 
 ## Author
 
