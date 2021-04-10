@@ -19,7 +19,12 @@
     "endpoint"
   ],
   "author": "James McNee",
-  "license": "ISC",
+  "homepage": "https://github.com/JamesMcNee/MigrationBuddy",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamesMcNee/MigrationBuddy.git"
+  },
+  "license": "Unlicence",
   "dependencies": {
     "ajv": "^8.0.5",
     "axios": "^0.21.1",
