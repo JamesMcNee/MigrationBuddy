@@ -25,10 +25,10 @@ export class Logger {
     }
 
     static log(...message: string[]): void {
-        this.logColour('white', ...message);
+        this.logColour('whiteBright', ...message);
     }
 
-    static logColour(color: 'white' | 'blue' | 'blueBright' | 'red' | 'redBright' = 'white', ...message: string[]): void {
+    static logColour(color: 'white' | 'whiteBright' | 'blue' | 'blueBright' | 'red' | 'redBright' = 'white', ...message: string[]): void {
         const string = message.reduce((prev, current) => {
             const currentString = typeof current === 'object' ? JSON.stringify(current, null, 2) : current;
             return `${prev}${!!prev ? '\n' : ''}${currentString}`;
