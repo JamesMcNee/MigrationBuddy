@@ -4,7 +4,8 @@
   "description": "Utility to aid in the migration of endpoints (especially useful for cloud migrations)",
   "main": "./index.js",
   "bin": {
-    "migbuddy": "./index.js"
+    "migbuddy": "./index.js",
+    "migrationbuddy": "./index.js"
   },
   "scripts": {
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
