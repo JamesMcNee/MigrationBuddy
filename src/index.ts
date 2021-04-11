@@ -21,9 +21,10 @@ Logger.logColour('white', `Version: ${packageJson.version}, Description: ${packa
 Logger.linebreak()
 
 program
-    .name('migbuddy')
+    .name('compare')
     .version(packageJson.version)
     .command('compare <config-file>', {isDefault: true})
+    .description("Run endpoint comparison using the supplied comparison")
     .option('-of, --output-file <path>', 'Path to create output file')
     .option('-oc, --output-to-clipboard', 'Output results to clipboard')
     .option('-v, --verbose', 'Enable verbose logging / responses')
@@ -91,6 +92,10 @@ program
         fs.writeFileSync(destination, JSON.stringify(exampleConfig, null, 2));
         Logger.info(`Created configuration file: ${destination}`);
     });
+
+if (process.argv.length == 2) {
+    program.outputHelp();
+}
 
 program
     .parse(process.argv);
