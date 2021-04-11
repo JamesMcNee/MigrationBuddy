@@ -31,8 +31,18 @@ export class ServiceComparator {
             return substitutedPath;
         }
 
-        const controlResult = await this._httpClient.get(`${this._configuration.configuration.control.url}${substitute(path)}`, this._configuration.configuration.control.headers);
-        const candidateResult = await this._httpClient.get(`${this._configuration.configuration.candidate.url}${substitute(endpointConfig.candidatePath || path)}`, this._configuration.configuration.candidate.headers);
+        const controlResult = await this._httpClient.get(
+            `${this._configuration.configuration.control.url}${substitute(path)}`,
+            {
+                ...this._configuration.configuration.control.headers || {},
+                ...endpointConfig.headers || {}
+            });
+        const candidateResult = await this._httpClient.get(
+            `${this._configuration.configuration.candidate.url}${substitute(endpointConfig.candidatePath || path)}`,
+            {
+                ...this._configuration.configuration.candidate.headers || {},
+                ...endpointConfig.headers || {}
+            });
 
         const difference = diff(
             ServiceComparator.DiffUtils.format(controlResult.body, endpointConfig.options),

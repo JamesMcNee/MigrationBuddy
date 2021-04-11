@@ -17,7 +17,7 @@
 ## Description + Example
 TL;DR: Utility to aid in the migration of endpoints (especially useful for cloud migrations) by hitting both the old and new service and comparing various properties.
 
-This utility is aimed at ensuring parity between two `GET` endpoints (and sets of endpoints). For each provided endpoint a request will be made of each of the defined services and properties about the request recorded such as:
+This utility is aimed at ensuring parity between two (currently only supports `GET`) endpoints (and sets of endpoints). For each provided endpoint a request will be made of each of the defined services and properties about the request recorded such as:
 
 - Status code
 - Response time
@@ -25,7 +25,28 @@ This utility is aimed at ensuring parity between two `GET` endpoints (and sets o
 
 Using the above a 'report' is generated with the comparison results including a diff of the response bodies.
 
-### Example configuration:
+## 🛠 Installation
+This utility is available on NPM! Simply run the following to get started:
+
+`npm install -g migrationbuddy`
+
+## 🚀 Usage
+
+- Generate a configuration file template/example
+
+  `migbuddy generate <path/to/write/file.json>`
+- Execute endpoint comparison
+
+  `migbuddy <path/to/config/file.json>`
+
+  Flags:
+  - `of, --output-file <path>` [Optional] - File to output results JSON to.
+  - `-oc, --output-to-clipboard` [Optional, default false] - Copy the result JSON structure to the clipboard.
+  - `-v, --verbose` [Optional, default false] - Enable verbose logging -- may help to identify errors.
+  - For most up-to-date flags run `migbuddy --help`.
+
+
+### Configuration:
 
 #### Global Config
 Some configurations can / should be set at a global level, the following properties exist:
@@ -34,14 +55,18 @@ Some configurations can / should be set at a global level, the following propert
 - `configuration` - Properties defining the control and candidate services.
 
 #### Endpoint Config
+**Note:** Values set at the endpoint level such as headers and substitutions will override those set in the global context.
+
 Each endpoint can optionally have the following properties:
 - `candidatePath`: An alternate path to use for the candidate service. This is useful if the endpoint has changed slightly between services i.e. `/api/v1/todos/{id}` -> `/api/v2/todos/{id}`.
-- `substitutions`: A JSON key value structure allowing for URL templating. Any matching instances of a variable in the path e.g. `{key}` will be replaced by a corresponding substitution value from the map. **Note:** Local substitutions will override those set in the global context.
+- `substitutions`: A JSON key value structure allowing for URL templating. Any matching instances of a variable in the path e.g. `{key}` will be replaced by a corresponding substitution value from the map.
+- `headers`: A JSON key value structure allowing for headers to be provided at the endpoint level.
 - `options`: 
   - `diff`: 
     - `sortArrays`: Boolean value indicating if arrays should be sorted (recursively) when performing the diff.
     - `ignoreKeys`: String array of keys to be ignored when performing the diff.
 
+#### Example configuration
 ```json
 {
   "endpoints": {
@@ -49,6 +74,9 @@ Each endpoint can optionally have the following properties:
       "candidatePath": "/v2/todos/{id}",
       "substitutions": {
         "id": "john.doe"
+      },
+      "headers": {
+        "X-SOME-HEADER": "HEADER_VALUE"
       },
       "options": {
         "diff": {
@@ -94,27 +122,6 @@ Each endpoint can optionally have the following properties:
   }
 }
 ```
-
-## 🛠 Installation
-This utility is available on NPM! Simply run the following to get started:
-
-`npm install -g migrationbuddy`
-
-## 🚀 Usage
-
- - Generate a configuration file template/example
-   
-    `migbuddy generate <path/to/write/file.json>`
-- Execute endpoint comparison
-
-    `migbuddy <path/to/config/file.json>`
-    
-    Flags:
-    - `of, --output-file <path>` [Optional] - File to output results JSON to.
-    - `-oc, --output-to-clipboard` [Optional, default false] - Copy the result JSON structure to the clipboard.
-    - `-v, --verbose` [Optional, default false] - Enable verbose logging -- may help to identify errors.
-    - For most up-to-date flags run `migbuddy --help`.
-
 
 ## Author
 

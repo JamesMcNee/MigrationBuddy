@@ -16,6 +16,7 @@ export interface ServiceConfiguration {
 export interface EndpointConfiguration {
     candidatePath?: string,
     substitutions: { [key: string]: string | number },
+    headers?: { [key: string]: string },
     options: EndpointConfigurationOptions
 }
 

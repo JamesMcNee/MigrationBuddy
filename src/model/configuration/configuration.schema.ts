@@ -49,6 +49,14 @@ export class ConfigurationSchema {
             substitutions: {
                 ...ConfigurationSchema._substitutionsSchema
             },
+            headers: {
+                type: "object",
+                required: [],
+                nullable: true,
+                patternProperties: {
+                    ".{1,}": {type: "string", nullable: false}
+                }
+            },
             options: {
                 ...ConfigurationSchema._endpointOptionsSchema
             }
