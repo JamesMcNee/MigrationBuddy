@@ -10,7 +10,7 @@ const packageJson = require('./package.json');
 const exampleConfig = require('./resources/mibration-buddy-config.json');
 const fs = require('fs');
 const cliProgress = require('cli-progress');
-const copyPaste = require("copy-paste");
+const clipboardy = require('clipboardy');
 
 
 const program = new Command();
@@ -77,7 +77,8 @@ program
         }
 
         if (!!options.outputToClipboard) {
-            copyPaste.copy(JSON.stringify(diffMap, null, 2), () => Logger.info(`Results copied to clipboard`));
+            clipboardy.writeSync(JSON.stringify(diffMap, null, 2));
+            Logger.info(`Results copied to clipboard`);
         }
     });
 
