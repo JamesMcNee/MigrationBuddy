@@ -1,6 +1,8 @@
 <h1 align="center">Welcome to Migration Buddy 👋</h1>
 <p>
-  <img alt="Version" src="https://badge.fury.io/js/migrationbuddy.svg" />
+  <a href="https://www.npmjs.com/package/migrationbuddy" target="_blank">
+    <img alt="Version" src="https://badge.fury.io/js/migrationbuddy.svg" />
+  </a>
   <a href="https://github.com/JamesMcNee/MigrationBuddy#readme" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
@@ -24,6 +26,11 @@ This utility is aimed at ensuring parity between two `GET` endpoints (and sets o
 Using the above a 'report' is generated with the comparison results including a diff of the response bodies.
 
 ### Example config:
+
+Each endpoint can optionally have the following properties:
+- `candidatePath`: An alternate path to use for the candidate service. This is useful if the endpoint has changed slightly between services i.e. `/api/v1/todos/{id}` -> `/api/v2/todos/{id}`.
+- `substitutions`: A JSON key value structure allowing for URL templating. Any matching instances of a variable in the path e.g. `{key}` will be replaced by a corresponding substitution value from the map.
+
 ```json
 {
   "endpoints": {
@@ -101,7 +108,7 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
-Copyright © 2021 [James McNee](https://github.com/JamesMcNee).<br />
+Copyright © 2021 [James McNee](https://github.com/JamesMcNee). <br />
 This project is [Unlicence](https://github.com/JamesMcNee/MigrationBuddy/blob/master/LICENSE.md) licensed.
 
 ***
