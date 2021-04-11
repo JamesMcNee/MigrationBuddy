@@ -4,6 +4,7 @@ import {Logger} from "./logger";
 import {ConfigValidator} from "./config-validator";
 import {Configuration, EndpointConfiguration} from "./model/configuration/configuration.model";
 import {ServiceComparator} from "./service-comparator";
+import {EndpointResult} from "./model/endpoint-result.model";
 
 const clear = require('clear');
 const packageJson = require('./package.json');
@@ -46,7 +47,7 @@ program
 
         const serviceComparator: ServiceComparator = new ServiceComparator(compiledConfig.data);
 
-        const diffMap: { [key: string]: any } = {};
+        const diffMap: { [key: string]: EndpointResult } = {};
 
         const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
         const endpoints: { [key: string]: EndpointConfiguration } = compiledConfig.data.endpoints;

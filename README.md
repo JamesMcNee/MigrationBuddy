@@ -110,9 +110,19 @@ Each endpoint can optionally have the following properties:
 ```json
 {
   "/v1/todos/{id}": {
-    "statusMatch": true,
-    "status": "200 -> 200",
-    "responseTime": "295ms -> 120ms (146% faster)",
+    "status": {
+      "pretty": "Control: 200 -> Candidate: 200",
+      "control": 200,
+      "candidate": 200
+    },
+    "responseTime": {
+      "pretty": "Control: 158ms -> Candidate: 161ms (2% slower)",
+      "control": 158,
+      "candidate": 161,
+      "metadata": {
+        "unit": "milliseconds"
+      }
+    },
     "diff": {
       "title": {
         "__old": "Buy Milk",

@@ -6,6 +6,7 @@ import {
 import {HttpClient} from "./http-client";
 import {AxiosHttpClient} from "./axios-http-client";
 import {diff} from 'json-diff';
+import {EndpointResult} from "./model/endpoint-result.model";
 
 export class ServiceComparator {
 
@@ -17,7 +18,7 @@ export class ServiceComparator {
         this._httpClient = new AxiosHttpClient();
     }
 
-    public async compare(path: string, endpointConfig: EndpointConfiguration): Promise<{ statusMatch: boolean, status: string, diff: any }> {
+    public async compare(path: string, endpointConfig: EndpointConfiguration): Promise<EndpointResult> {
         const substitute = (input: string): string => {
             const substitutions = {
                 ...this._configuration.substitutions || {},
@@ -50,12 +51,26 @@ export class ServiceComparator {
         );
 
         return Promise.resolve({
-            statusMatch: controlResult.status === candidateResult.status,
-            status: `${controlResult.status} -> ${candidateResult.status}`,
-            responseTime: ServiceComparator.createResponseTimeString(controlResult.responseTime, candidateResult.responseTime),
+            status: {
+                pretty: `Control: ${controlResult.status} -> Candidate: ${candidateResult.status}`,
+                control: controlResult.status,
+                candidate: candidateResult.status,
+            },
+            responseTime: {
+                pretty: ServiceComparator.createResponseTimeString(controlResult.responseTime, candidateResult.responseTime),
+                control: controlResult.responseTime,
+                candidate: candidateResult.responseTime,
+                metadata: {
+                    'unit': 'milliseconds'
+                }
+            },
             diff: difference
         });
     }
+
+    // status: `${controlResult.status} -> ${candidateResult.status}`,
+    // responseTime: ServiceComparator.createResponseTimeString(controlResult.responseTime, candidateResult.responseTime),
+    // diff: difference
 
     private static createResponseTimeString(leftMillis: number, rightMillis: number): string {
         const percentage = Math.round((leftMillis / rightMillis) * 100);
@@ -69,7 +84,7 @@ export class ServiceComparator {
             percentageString = `${100 - percentage}% slower`;
         }
 
-        return `${leftMillis}ms -> ${rightMillis}ms (${percentageString})`;
+        return `Control: ${leftMillis}ms -> Candidate: ${rightMillis}ms (${percentageString})`;
     }
 
     private static DiffUtils = class {
