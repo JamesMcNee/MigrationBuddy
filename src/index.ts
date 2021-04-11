@@ -77,7 +77,7 @@ program
         }
 
         if (!!options.outputToClipboard) {
-            copyPaste.copy(diffMap, () => Logger.info(`Results copied to clipboard`));
+            copyPaste.copy(JSON.stringify(diffMap, null, 2), () => Logger.info(`Results copied to clipboard`));
         }
     });
 
