@@ -7,12 +7,20 @@ export interface Configuration {
     }
 }
 
-export interface EndpointConfiguration {
-    candidatePath?: string,
-    substitutions: { [key: string]: string | number }
-}
-
 export interface ServiceConfiguration {
     url: string,
     headers?: { [key: string]: string }
+}
+
+export interface EndpointConfiguration {
+    candidatePath?: string,
+    substitutions: { [key: string]: string | number },
+    options: EndpointConfigurationOptions
+}
+
+export interface EndpointConfigurationOptions {
+    diff: {
+        sortArrays: boolean,
+        ignoreKeys: string[]
+    }
 }

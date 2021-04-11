@@ -1,7 +1,34 @@
 import {JSONSchemaType} from "ajv";
-import {Configuration, EndpointConfiguration, ServiceConfiguration} from "./configuration.model";
+import {
+    Configuration,
+    EndpointConfiguration,
+    EndpointConfigurationOptions,
+    ServiceConfiguration
+} from "./configuration.model";
 
 export class ConfigurationSchema {
+
+    private static _endpointOptionsSchema: JSONSchemaType<EndpointConfigurationOptions> = {
+        type: "object",
+        required: [],
+        properties: {
+            diff: {
+                type: "object",
+                required: [],
+                properties: {
+                    sortArrays: {
+                        type: "boolean"
+                    },
+                    ignoreKeys: {
+                        type: "array",
+                        items: {
+                            type: "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     private static _endpointSchema: JSONSchemaType<EndpointConfiguration> = {
         type: "object",
@@ -17,6 +44,9 @@ export class ConfigurationSchema {
                 patternProperties: {
                     ".{1,}": {oneOf: [{type: "string", nullable: false}, {type: "number", nullable: false}]}
                 }
+            },
+            options: {
+                ...ConfigurationSchema._endpointOptionsSchema
             }
         }
     }

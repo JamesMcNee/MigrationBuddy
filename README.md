@@ -30,13 +30,24 @@ Using the above a 'report' is generated with the comparison results including a 
 Each endpoint can optionally have the following properties:
 - `candidatePath`: An alternate path to use for the candidate service. This is useful if the endpoint has changed slightly between services i.e. `/api/v1/todos/{id}` -> `/api/v2/todos/{id}`.
 - `substitutions`: A JSON key value structure allowing for URL templating. Any matching instances of a variable in the path e.g. `{key}` will be replaced by a corresponding substitution value from the map.
+- `options`: 
+  - `diff`: 
+    - `sortArrays`: Boolean value indicating if arrays should be sorted (recursively) when performing the diff.
+    - `ignoreKeys`: String array of keys to be ignored when performing the diff.
 
 ```json
 {
   "endpoints": {
-    "/todos/{id}": {
+    "/v1/todos/{id}": {
+      "candidatePath": "/v2/todos/{id}",
       "substitutions": {
         "id": "john.doe"
+      },
+      "options": {
+        "diff": {
+          "sortArrays": true,
+          "ignoreKeys": ["_title"]
+        }
       }
     }
   },
@@ -60,7 +71,7 @@ Each endpoint can optionally have the following properties:
 ### Example report/output
 ```json
 {
-  "/todos/{id}": {
+  "/v1/todos/{id}": {
     "statusMatch": true,
     "status": "200 -> 200",
     "responseTime": "295ms -> 120ms (146% faster)",

@@ -1,4 +1,8 @@
-import {Configuration, EndpointConfiguration} from "./model/configuration/configuration.model";
+import {
+    Configuration,
+    EndpointConfiguration,
+    EndpointConfigurationOptions
+} from "./model/configuration/configuration.model";
 import {HttpClient} from "./http-client";
 import {AxiosHttpClient} from "./axios-http-client";
 import {diff} from 'json-diff';
@@ -25,7 +29,10 @@ export class ServiceComparator {
         const controlResult = await this._httpClient.get(`${this._configuration.configuration.control.url}${substitute(path)}`, this._configuration.configuration.control.headers);
         const candidateResult = await this._httpClient.get(`${this._configuration.configuration.candidate.url}${substitute(endpointConfig.candidatePath || path)}`, this._configuration.configuration.candidate.headers);
 
-        const difference = diff(this.format(controlResult.body), this.format(candidateResult.body));
+        const difference = diff(
+            this.format(controlResult.body, endpointConfig.options),
+            this.format(candidateResult.body, endpointConfig.options)
+        );
 
         return Promise.resolve({
             statusMatch: controlResult.status === candidateResult.status,
@@ -51,11 +58,13 @@ export class ServiceComparator {
     }
 
 
-    private format(obj: any): any {
+    private format(obj: any, options: EndpointConfigurationOptions): any {
         let altered = {...obj};
 
-        altered = this.removeKeysRecursively(altered, ["_links"]);
-        altered = this.sortArraysRecursively(altered);
+        altered = this.removeKeysRecursively(altered, options?.diff?.ignoreKeys || []);
+        if (options?.diff?.sortArrays) {
+            altered = this.sortArraysRecursively(altered);
+        }
 
         return altered;
     }
