@@ -8,6 +8,14 @@ import {
 
 export class ConfigurationSchema {
 
+    private static _substitutionsSchema: JSONSchemaType<{ [key: string]: string | number }> = {
+        type: "object",
+        required: [],
+        patternProperties: {
+            ".{1,}": {oneOf: [{type: "string", nullable: false}, {type: "number", nullable: false}]}
+        }
+    }
+
     private static _endpointOptionsSchema: JSONSchemaType<EndpointConfigurationOptions> = {
         type: "object",
         required: [],
@@ -39,11 +47,7 @@ export class ConfigurationSchema {
                 nullable: true
             },
             substitutions: {
-                type: "object",
-                required: [],
-                patternProperties: {
-                    ".{1,}": {oneOf: [{type: "string", nullable: false}, {type: "number", nullable: false}]}
-                }
+                ...ConfigurationSchema._substitutionsSchema
             },
             options: {
                 ...ConfigurationSchema._endpointOptionsSchema
@@ -81,6 +85,9 @@ export class ConfigurationSchema {
                         ...ConfigurationSchema._endpointSchema
                     }
                 }
+            },
+            substitutions: {
+                ...ConfigurationSchema._substitutionsSchema
             },
             configuration: {
                 type: "object",

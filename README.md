@@ -25,11 +25,18 @@ This utility is aimed at ensuring parity between two `GET` endpoints (and sets o
 
 Using the above a 'report' is generated with the comparison results including a diff of the response bodies.
 
-### Example config:
+### Example configuration:
 
+#### Global Config
+Some configurations can / should be set at a global level, the following properties exist:
+- `endpoints` - [See Endpoint Config] Configuration of the various endpoint to compare.
+- `substitutions` - A JSON key value structure allowing for URL templating. Any matching instances of a variable in the path e.g. `{key}` will be replaced by a corresponding substitution value from the map.
+- `configuration` - Properties defining the control and candidate services.
+
+#### Endpoint Config
 Each endpoint can optionally have the following properties:
 - `candidatePath`: An alternate path to use for the candidate service. This is useful if the endpoint has changed slightly between services i.e. `/api/v1/todos/{id}` -> `/api/v2/todos/{id}`.
-- `substitutions`: A JSON key value structure allowing for URL templating. Any matching instances of a variable in the path e.g. `{key}` will be replaced by a corresponding substitution value from the map.
+- `substitutions`: A JSON key value structure allowing for URL templating. Any matching instances of a variable in the path e.g. `{key}` will be replaced by a corresponding substitution value from the map. **Note:** Local substitutions will override those set in the global context.
 - `options`: 
   - `diff`: 
     - `sortArrays`: Boolean value indicating if arrays should be sorted (recursively) when performing the diff.
@@ -50,6 +57,9 @@ Each endpoint can optionally have the following properties:
         }
       }
     }
+  },
+  "substitutions": {
+    "id": "sally.woodworth"
   },
   "configuration": {
     "control": {

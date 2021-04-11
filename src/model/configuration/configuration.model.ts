@@ -1,6 +1,7 @@
 
 export interface Configuration {
     endpoints: { [key: string]: EndpointConfiguration },
+    substitutions: { [key: string]: string | number },
     configuration: {
         control: ServiceConfiguration,
         candidate: ServiceConfiguration
