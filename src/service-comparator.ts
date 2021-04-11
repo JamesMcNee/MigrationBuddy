@@ -16,7 +16,7 @@ export class ServiceComparator {
     public async compare(path: string, endpointConfig: EndpointConfiguration): Promise<{ statusMatch: boolean, status: string, diff: any }> {
         const substitute = (input: string): string => {
             let substitutedPath = input;
-            Object.keys(endpointConfig.substitutions).forEach(key => {
+            Object.keys(endpointConfig.substitutions || {}).forEach(key => {
                 substitutedPath = substitutedPath.replace(`{${key}}`, endpointConfig.substitutions[key] as string);
             });
             return substitutedPath;

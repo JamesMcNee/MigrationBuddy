@@ -56,7 +56,13 @@ Using the above a 'report' is generated with the comparison results including a 
   "/todos/{id}": {
     "statusMatch": true,
     "status": "200 -> 200",
-    "responseTime": "161ms -> 151ms (7% faster)"
+    "responseTime": "295ms -> 120ms (146% faster)",
+    "diff": {
+      "title": {
+        "__old": "Buy Milk",
+        "__new": "Buy Eggs"
+      }
+    }
   }
 }
 ```
