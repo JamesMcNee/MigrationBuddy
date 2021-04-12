@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import {Command} from 'commander';
 import {Logger} from "./logger";
-import {ConfigValidator} from "./config-validator";
+import {ConfigProcessor} from "./config-processor";
 import {Configuration, EndpointConfiguration} from "./model/configuration/configuration.model";
 import {ServiceComparator} from "./service-comparator";
 import {EndpointResult} from "./model/endpoint-result.model";
@@ -30,7 +30,7 @@ program
     .option('-oc, --output-to-clipboard', 'Output results to clipboard')
     .option('-v, --verbose', 'Enable verbose logging / responses')
     .action(async (configFilePath, options) => {
-        const configValidator = new ConfigValidator(readConfigFile(configFilePath, options.verbose));
+        const configValidator = new ConfigProcessor(readConfigFile(configFilePath, options.verbose));
 
         const compiledConfig: { data: Configuration | undefined, errors?: any } = configValidator.compile();
 

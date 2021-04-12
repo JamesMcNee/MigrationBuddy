@@ -21,7 +21,6 @@ export class ServiceComparator {
     public async compare(path: string, endpointConfig: EndpointConfiguration): Promise<EndpointResult> {
         const substitute = (input: string): string => {
             const substitutions = {
-                ...this._configuration.substitutions || {},
                 ...endpointConfig.substitutions || {}
             };
 
@@ -67,10 +66,6 @@ export class ServiceComparator {
             diff: difference
         });
     }
-
-    // status: `${controlResult.status} -> ${candidateResult.status}`,
-    // responseTime: ServiceComparator.createResponseTimeString(controlResult.responseTime, candidateResult.responseTime),
-    // diff: difference
 
     private static createResponseTimeString(leftMillis: number, rightMillis: number): string {
         const percentage = Math.round((leftMillis / rightMillis) * 100);

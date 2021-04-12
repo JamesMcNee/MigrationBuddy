@@ -1,11 +1,17 @@
 
 export interface Configuration {
     endpoints: { [key: string]: EndpointConfiguration },
-    substitutions: { [key: string]: string | number },
     configuration: {
+        global: GlobalConfiguration,
         control: ServiceConfiguration,
         candidate: ServiceConfiguration
     }
+}
+
+export interface GlobalConfiguration {
+    substitutions: { [key: string]: string | number },
+    headers?: { [key: string]: string },
+    options: EndpointConfigurationOptions
 }
 
 export interface ServiceConfiguration {

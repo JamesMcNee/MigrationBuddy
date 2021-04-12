@@ -2,7 +2,7 @@ import {JSONSchemaType} from "ajv";
 import {
     Configuration,
     EndpointConfiguration,
-    EndpointConfigurationOptions,
+    EndpointConfigurationOptions, GlobalConfiguration,
     ServiceConfiguration
 } from "./configuration.model";
 
@@ -46,9 +46,7 @@ export class ConfigurationSchema {
                 type: "string",
                 nullable: true
             },
-            substitutions: {
-                ...ConfigurationSchema._substitutionsSchema
-            },
+            substitutions: ConfigurationSchema._substitutionsSchema,
             headers: {
                 type: "object",
                 required: [],
@@ -57,9 +55,7 @@ export class ConfigurationSchema {
                     ".{1,}": {type: "string", nullable: false}
                 }
             },
-            options: {
-                ...ConfigurationSchema._endpointOptionsSchema
-            }
+            options: ConfigurationSchema._endpointOptionsSchema
         }
     }
 
@@ -79,6 +75,23 @@ export class ConfigurationSchema {
         }
     }
 
+    private static _globalConfigurationSchema: JSONSchemaType<GlobalConfiguration> = {
+        type: "object",
+        required: [],
+        properties: {
+            substitutions: ConfigurationSchema._substitutionsSchema,
+            headers: {
+                type: "object",
+                required: [],
+                nullable: true,
+                patternProperties: {
+                    ".{1,}": {type: "string", nullable: false}
+                }
+            },
+            options: ConfigurationSchema._endpointOptionsSchema
+        }
+    }
+
 
     private static _schema: JSONSchemaType<Configuration> = {
         type: "object",
@@ -89,24 +102,16 @@ export class ConfigurationSchema {
                 minProperties: 1,
                 required: [],
                 patternProperties: {
-                    ".{1,}": {
-                        ...ConfigurationSchema._endpointSchema
-                    }
+                    ".{1,}": ConfigurationSchema._endpointSchema
                 }
-            },
-            substitutions: {
-                ...ConfigurationSchema._substitutionsSchema
             },
             configuration: {
                 type: "object",
                 required: ["control", "candidate"],
                 properties: {
-                    control: {
-                        ...ConfigurationSchema._serviceConfigurationSchema
-                    },
-                    candidate: {
-                        ...ConfigurationSchema._serviceConfigurationSchema
-                    }
+                    global: ConfigurationSchema._globalConfigurationSchema,
+                    control: ConfigurationSchema._serviceConfigurationSchema,
+                    candidate: ConfigurationSchema._serviceConfigurationSchema
                 }
             }
         }

@@ -48,11 +48,11 @@ This utility is available on NPM! Simply run the following to get started:
 
 ### Configuration:
 
-#### Global Config
+#### Top level configuration
 Some configurations can / should be set at a global level, the following properties exist:
 - `endpoints` - [See Endpoint Config] Configuration of the various endpoint to compare.
 - `substitutions` - A JSON key value structure allowing for URL templating. Any matching instances of a variable in the path e.g. `{key}` will be replaced by a corresponding substitution value from the map.
-- `configuration` - Properties defining the control and candidate services.
+- `configuration` - [See Global Config] Properties defining the control and candidate services.
 
 #### Endpoint Config
 **Note:** Values set at the endpoint level such as headers and substitutions will override those set in the global context.
@@ -65,6 +65,22 @@ Each endpoint can optionally have the following properties:
   - `diff`: 
     - `sortArrays`: Boolean value indicating if arrays should be sorted (recursively) when performing the diff.
     - `ignoreKeys`: String array of keys to be ignored when performing the diff.
+  
+#### Global Config
+- `global`:
+  - `substitutions`: A JSON key value structure allowing for URL templating. Any matching instances of a variable in the path e.g. `{key}` will be replaced by a corresponding substitution value from the map.
+  - `headers`: A JSON key value structure allowing for headers to be provided at the global (all endpoints) level.
+  - `options`:
+    - `diff`:
+      - `sortArrays`: Boolean value indicating if arrays should be sorted (recursively) when performing the diff.
+      - `ignoreKeys`: String array of keys to be ignored when performing the diff.
+- `control`: The 'old' service that is being replaced (this may be the same as the candidate)
+  - `url`: URL of the service
+  - `headers`: A JSON key value structure allowing for headers to be provided at the only to the control service.
+- `candidate`: The 'new' service that is being replaced (this may be the same as the control)
+  - `url`: URL of the service
+  - `headers`: A JSON key value structure allowing for headers to be provided at the only to the candidate service.
+
 
 #### Example configuration
 ```json
@@ -86,10 +102,23 @@ Each endpoint can optionally have the following properties:
       }
     }
   },
-  "substitutions": {
-    "id": "sally.woodworth"
-  },
   "configuration": {
+    "global": {
+      "substitutions": {
+        "id": "sally.woodworth"
+      },
+      "headers": {
+        "X-SOME-GLOBAL-HEADER": "HEADER_VALUE"
+      },
+      "options": {
+        "diff": {
+          "sortArrays": true,
+          "ignoreKeys": [
+            "_links"
+          ]
+        }
+      }
+    },
     "control": {
       "url": "https://my-old-api.tld/api",
       "headers": {
