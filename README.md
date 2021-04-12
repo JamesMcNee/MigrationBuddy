@@ -51,7 +51,6 @@ This utility is available on NPM! Simply run the following to get started:
 #### Top level configuration
 Some configurations can / should be set at a global level, the following properties exist:
 - `endpoints` - [See Endpoint Config] Configuration of the various endpoint to compare.
-- `substitutions` - A JSON key value structure allowing for URL templating. Any matching instances of a variable in the path e.g. `{key}` will be replaced by a corresponding substitution value from the map.
 - `configuration` - [See Global Config] Properties defining the control and candidate services.
 
 #### Endpoint Config
