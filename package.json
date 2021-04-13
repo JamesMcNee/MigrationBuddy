@@ -12,7 +12,8 @@
     "test": "jest",
     "build": "rm -rf ./lib && tsc -p . && cp -r src/resources ./lib/ && cp package*.json ./lib/ && cp README.md ./lib/",
     "install:local": "sudo npm rm migrationbuddy -g && npm run build && (cd lib && sudo npm link)",
-    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
+    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
+    "prepare": "husky install"
   },
   "keywords": [
     "migration",
@@ -42,8 +43,11 @@
     "@types/jest": "^26.0.22",
     "@types/json-diff": "^0.5.1",
     "@types/node": "^14.14.37",
+    "husky": "^6.0.0",
     "jest": "^26.6.3",
     "nodemon": "^2.0.7",
+    "prettier": "2.2.1",
+    "pretty-quick": "^3.1.0",
     "ts-jest": "^26.5.4",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"

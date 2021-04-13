@@ -5,8 +5,8 @@ name: Build and Test
 
 on:
   push:
-    branches: [ master ]
-    
+    branches: [master]
+
 jobs:
   execute:
     runs-on: ubuntu-latest

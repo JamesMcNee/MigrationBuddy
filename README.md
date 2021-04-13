@@ -18,6 +18,7 @@
 </p>
 
 ## Description + Example
+
 TL;DR: Utility to aid in the migration of endpoints (especially useful for cloud migrations) by hitting both the old and new service and comparing various properties.
 
 This utility is aimed at ensuring parity between two (currently only supports `GET`) endpoints (and sets of endpoints). For each provided endpoint a request will be made of each of the defined services and properties about the request recorded such as:
@@ -29,6 +30,7 @@ This utility is aimed at ensuring parity between two (currently only supports `G
 Using the above a 'report' is generated with the comparison results including a diff of the response bodies.
 
 ## 🛠 Installation
+
 This utility is available on NPM! Simply run the following to get started:
 
 `npm install -g migrationbuddy`
@@ -38,37 +40,43 @@ This utility is available on NPM! Simply run the following to get started:
 - Generate a configuration file template/example
 
   `migbuddy generate <path/to/write/file.json>`
+
 - Execute endpoint comparison
 
   `migbuddy <path/to/config/file.json>`
 
   Flags:
+
   - `of, --output-file <path>` [Optional] - File to output results JSON to.
   - `-oc, --output-to-clipboard` [Optional, default false] - Copy the result JSON structure to the clipboard.
   - `-v, --verbose` [Optional, default false] - Enable verbose logging -- may help to identify errors.
   - For most up-to-date flags run `migbuddy --help`.
 
-
 ### Configuration:
 
 #### Top level configuration
+
 Some configurations can / should be set at a global level, the following properties exist:
+
 - `endpoints` - [See Endpoint Config] Configuration of the various endpoint to compare.
 - `configuration` - [See Global Config] Properties defining the control and candidate services.
 
 #### Endpoint Config
+
 **Note:** Values set at the endpoint level such as headers and substitutions will override those set in the global context.
 
 Each endpoint can optionally have the following properties:
+
 - `candidatePath`: An alternate path to use for the candidate service. This is useful if the endpoint has changed slightly between services i.e. `/api/v1/todos/{id}` -> `/api/v2/todos/{id}`.
 - `substitutions`: A JSON key value structure allowing for URL templating. Any matching instances of a variable in the path e.g. `{key}` will be replaced by a corresponding substitution value from the map.
 - `headers`: A JSON key value structure allowing for headers to be provided at the endpoint level.
-- `options`: 
-  - `diff`: 
+- `options`:
+  - `diff`:
     - `sortArrays`: Boolean value indicating if arrays should be sorted (recursively) when performing the diff.
     - `ignoreKeys`: String array of keys to be ignored when performing the diff. **Note:** Specifying an empty array `[]` has special significance. It will prevent the global config for this property being merged for this endpoint.
-  
+
 #### Global Config
+
 - `global`:
   - `substitutions`: A JSON key value structure allowing for URL templating. Any matching instances of a variable in the path e.g. `{key}` will be replaced by a corresponding substitution value from the map.
   - `headers`: A JSON key value structure allowing for headers to be provided at the global (all endpoints) level.
@@ -83,8 +91,8 @@ Each endpoint can optionally have the following properties:
   - `url`: URL of the service
   - `headers`: A JSON key value structure allowing for headers to be provided at the only to the candidate service.
 
-
 #### Example configuration
+
 ```json
 {
   "endpoints": {
@@ -115,9 +123,7 @@ Each endpoint can optionally have the following properties:
       "options": {
         "diff": {
           "sortArrays": true,
-          "ignoreKeys": [
-            "_links"
-          ]
+          "ignoreKeys": ["_links"]
         }
       }
     },
@@ -138,6 +144,7 @@ Each endpoint can optionally have the following properties:
 ```
 
 ### Example report/output
+
 ```json
 {
   "/v1/todos/{id}": {
@@ -168,8 +175,8 @@ Each endpoint can optionally have the following properties:
 
 👤 **James McNee**
 
-* Website: https://www.jamesmcnee.com
-* Github: [@JamesMcNee](https://github.com/JamesMcNee)
+- Website: https://www.jamesmcnee.com
+- Github: [@JamesMcNee](https://github.com/JamesMcNee)
 
 ## Show your support
 
@@ -180,5 +187,6 @@ Give a ⭐️ if this project helped you!
 Copyright © 2021 [James McNee](https://github.com/JamesMcNee). <br />
 This project is [Unlicence](https://github.com/JamesMcNee/MigrationBuddy/blob/master/LICENSE.md) licensed.
 
-***
+---
+
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
