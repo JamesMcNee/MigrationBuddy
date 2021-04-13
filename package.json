@@ -8,7 +8,6 @@
     "migrationbuddy": "./index.js"
   },
   "scripts": {
-    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "test": "jest",
     "build": "rm -rf ./lib && tsc -p . && cp -r src/resources ./lib/ && cp package*.json ./lib/ && cp README.md ./lib/",
     "install:local": "sudo npm rm migrationbuddy -g && npm run build && (cd lib && sudo npm link)",
@@ -45,7 +44,6 @@
     "@types/node": "^14.14.37",
     "husky": "^6.0.0",
     "jest": "^26.6.3",
-    "nodemon": "^2.0.7",
     "prettier": "2.2.1",
     "pretty-quick": "^3.1.0",
     "ts-jest": "^26.5.4",
