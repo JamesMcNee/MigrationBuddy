@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to Migration Buddy 👋</h1>
 <p>
-  <a href="Building" target="_blank">
+  <a href="#" target="_blank">
     <img alt="Build" src="https://github.com/JamesMcNee/MigrationBuddy/actions/workflows/main.yml/badge.svg" />
   </a>
   <a href="https://www.npmjs.com/package/migrationbuddy" target="_blank">
