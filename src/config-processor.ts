@@ -1,5 +1,9 @@
 import Ajv, {ValidateFunction} from "ajv"
-import {Configuration, EndpointConfiguration} from "./model/configuration/configuration.model";
+import {
+    Configuration,
+    EndpointConfiguration,
+    EndpointConfigurationOptions
+} from "./model/configuration/configuration.model";
 import {ConfigurationSchema} from "./model/configuration/configuration.schema";
 
 export class ConfigProcessor {
@@ -18,7 +22,7 @@ export class ConfigProcessor {
         return this._validatorFunction(this._json);
     }
 
-    public compile(): { data: Configuration | undefined, errors?: any } {
+    public compile(): { data?: Configuration | undefined, errors?: any } {
         if (this.validate()) {
             return {
                 data: this.mergeLocalAndGlobal(this._json as any),
@@ -34,6 +38,8 @@ export class ConfigProcessor {
 
     private mergeLocalAndGlobal(configuration: Configuration): Configuration {
         const mergedEndpoints: { [key: string]: EndpointConfiguration } = Object.entries(configuration.endpoints).map(([path, endpointConfig]: [string, EndpointConfiguration]) => {
+            const diffIgnoreKeysLength: string[] = endpointConfig?.options?.diff?.ignoreKeys;
+
             return {
                 key: path, value: {
                     ...endpointConfig,
@@ -48,10 +54,10 @@ export class ConfigProcessor {
                     options: {
                         diff: {
                             sortArrays: endpointConfig?.options?.diff?.sortArrays === undefined ? configuration.configuration?.global?.options?.diff?.sortArrays : endpointConfig.options.diff.sortArrays,
-                            ignoreKeys: ConfigProcessor.distinctArray([
+                            ignoreKeys: diffIgnoreKeysLength?.length > 0 ? ConfigProcessor.distinctArray([
                                 ...configuration.configuration?.global?.options?.diff?.ignoreKeys || [],
                                 ...endpointConfig?.options?.diff?.ignoreKeys || []
-                            ])
+                            ]) : []
                         }
                     }
                 }

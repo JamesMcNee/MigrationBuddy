@@ -66,7 +66,7 @@ Each endpoint can optionally have the following properties:
 - `options`: 
   - `diff`: 
     - `sortArrays`: Boolean value indicating if arrays should be sorted (recursively) when performing the diff.
-    - `ignoreKeys`: String array of keys to be ignored when performing the diff.
+    - `ignoreKeys`: String array of keys to be ignored when performing the diff. **Note:** Specifying an empty array `[]` has special significance. It will prevent the global config for this property being merged for this endpoint.
   
 #### Global Config
 - `global`:

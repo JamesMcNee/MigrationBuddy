@@ -18,6 +18,7 @@
     "/todos/3": {
       "options": {
         "diff": {
+          "ignoreKeys": [],
           "sortArrays": false
         }
       }

@@ -31,7 +31,7 @@ describe("Configuration Processor", () => {
 
     describe("compile", () => {
 
-        it("should compile combining global substitutions with local ones", () => {
+        it("should compile - combining global substitutions with local ones", () => {
             // Given
             const input = require("./resources/config-processor/compile/input/combine-substitutions.json")
 
@@ -44,7 +44,7 @@ describe("Configuration Processor", () => {
             expect(actual).toEqual(expected);
         });
 
-        it("should compile combining global headers with local ones", () => {
+        it("should compile - combining global headers with local ones", () => {
             // Given
             const input = require("./resources/config-processor/compile/input/combine-headers.json")
 
@@ -57,7 +57,7 @@ describe("Configuration Processor", () => {
             expect(actual).toEqual(expected);
         });
 
-        it("should compile combining global options with local ones", () => {
+        it("should compile - combining global options with local ones", () => {
             // Given
             const input = require("./resources/config-processor/compile/input/combine-options.json")
 
@@ -69,5 +69,6 @@ describe("Configuration Processor", () => {
 
             expect(actual).toEqual(expected);
         });
+
     });
 });
