@@ -1,0 +1,24 @@
+{
+  "endpoints": {
+    "/todos/1": {
+      "headers": {
+        "LOCAL_ONLY": "LOCAL_ONLY",
+        "LOCAL_AND_GLOBAL": "LOCAL_VALUE"
+      }
+    }
+  },
+  "configuration": {
+    "global": {
+      "headers": {
+        "LOCAL_AND_GLOBAL": "GLOBAL_VALUE",
+        "GLOBAL_ONLY": "GLOBAL_ONLY"
+      }
+    },
+    "control": {
+      "url": "https://myoldapi.tld"
+    },
+    "candidate": {
+      "url": "https://mynewapi.tld"
+    }
+  }
+}

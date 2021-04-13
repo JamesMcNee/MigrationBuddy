@@ -1,0 +1,42 @@
+{
+  "endpoints": {
+    "/todos/1": {
+      "options": {
+        "diff": {
+          "ignoreKeys": ["LOCAL_IGNORE"],
+          "sortArrays": true
+        }
+      }
+    },
+    "/todos/2": {
+      "options": {
+        "diff": {
+          "ignoreKeys": ["GLOBAL_IGNORE"]
+        }
+      }
+    },
+    "/todos/3": {
+      "options": {
+        "diff": {
+          "sortArrays": false
+        }
+      }
+    }
+  },
+  "configuration": {
+    "global": {
+      "options": {
+        "diff": {
+          "ignoreKeys": ["GLOBAL_IGNORE"],
+          "sortArrays": true
+        }
+      }
+    },
+    "control": {
+      "url": "https://myoldapi.tld"
+    },
+    "candidate": {
+      "url": "https://mynewapi.tld"
+    }
+  }
+}

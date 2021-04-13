@@ -1,4 +1,8 @@
 {
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ],
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
@@ -12,9 +16,10 @@
     "rootDir": "src",
     "strict": true,
     "types": [
-      "node"
+      "node",
+      "jest"
     ],
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
   }
 }

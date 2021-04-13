@@ -1,0 +1,50 @@
+{
+  "endpoints": {
+    "/todos/1": {
+      "substitutions": {},
+      "headers": {},
+      "options": {
+        "diff": {
+          "ignoreKeys": ["GLOBAL_IGNORE", "LOCAL_IGNORE"],
+          "sortArrays": true
+        }
+      }
+    },
+    "/todos/2": {
+      "substitutions": {},
+      "headers": {},
+      "options": {
+        "diff": {
+          "ignoreKeys": ["GLOBAL_IGNORE"],
+          "sortArrays": true
+        }
+      }
+    },
+    "/todos/3": {
+      "substitutions": {},
+      "headers": {},
+      "options": {
+        "diff": {
+          "ignoreKeys": ["GLOBAL_IGNORE"],
+          "sortArrays": false
+        }
+      }
+    }
+  },
+  "configuration": {
+    "global": {
+      "options": {
+        "diff": {
+          "ignoreKeys": ["GLOBAL_IGNORE"],
+          "sortArrays": true
+        }
+      }
+    },
+    "control": {
+      "url": "https://myoldapi.tld"
+    },
+    "candidate": {
+      "url": "https://mynewapi.tld"
+    }
+  }
+}

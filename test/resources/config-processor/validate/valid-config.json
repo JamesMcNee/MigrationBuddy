@@ -1,0 +1,47 @@
+{
+  "endpoints": {
+    "/todos/1": {
+      "candidatePath": "/todos/2",
+      "headers": {
+        "X-SOME-HEADER": "HEADER_VALUE"
+      },
+      "options": {
+        "diff": {
+          "sortArrays": true,
+          "ignoreKeys": ["id"]
+        }
+      }
+    },
+    "/todos/{id}": {
+      "substitutions": {
+        "id": 3
+      }
+    }
+  },
+  "configuration": {
+    "global": {
+      "substitutions": {
+        "id": 1
+      },
+      "headers": {
+        "X-SOME-HEADER": "HEADER_VALUE"
+      },
+      "options": {
+        "diff": {
+          "sortArrays": true,
+          "ignoreKeys": ["id"]
+        }
+      }
+    },
+    "control": {
+      "url": "https://myoldapi.tld",
+      "headers": {
+        "X-SOME-HEADER": "HEADER_VALUE",
+        "X-SOMEOTHER-HEADER": "OTHER_HEADER_VALUE"
+      }
+    },
+    "candidate": {
+      "url": "https://mynewapi.tld"
+    }
+  }
+}
