@@ -32,7 +32,7 @@ program
     .action(async (configFilePath, options) => {
         const configValidator = new ConfigProcessor(readConfigFile(configFilePath, options.verbose));
 
-        const compiledConfig: { data: Configuration | undefined, errors?: any } = configValidator.compile();
+        const compiledConfig: { data?: Configuration | undefined, errors?: any } = configValidator.compile();
 
         if (!compiledConfig.data) {
             let message: string = `Configuration failed schema validation!`;
