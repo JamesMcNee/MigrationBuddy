@@ -1,0 +1,79 @@
+
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr class="centered">
+          <th scope="col">Endpoint</th>
+          <th scope="col">Response Time</th>
+          <th scope="col">Status Match</th>
+          <th scope="col">2xx Status</th>
+          <th scope="col">Content Match</th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#results}}
+      <tr
+              data-toggle="collapse"
+              data-target="#accordion-{{id}}"
+              class="clickable collapse-row collapsed centered">
+        <td>{{path}}</td>
+        <td>
+          {{#if responseTime.match}}
+          <span title="Maintained">⏺</span>
+          {{else}}
+          {{#if responseTime.increase}}
+          <span title="Increased">🔼</span>
+          {{else}}
+          <span title="Decreased">🔽</span>
+          {{/if}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if status.match}}
+          <span title="Match">✅</span>
+          {{else}}
+          <span title="No Match">❌</span>
+          {{/if}}
+        </td>
+        <td>
+          {{#if status.metadata.eitherPathErrored}}
+          <span title="Error">❌</span>
+          {{else}}
+          <span title="Success">✅</span>
+          {{/if}}
+        </td>
+        <td>
+          {{#if diff.match}}
+          <span title="Match">✅</span>
+          {{else}}
+          <span title="No Match">❌</span>
+          {{/if}}
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="5">
+          <div id="accordion-{{id}}" class="collapse">
+              <b>Response Time:</b> {{responseTime.pretty}} <br />
+              <b>Response Status:</b> {{status.pretty}}
+              {{#unless diff.match}}
+              <br /><br />
+              <b>Content Diff:</b>
+              <div id="visual-{{id}}"></div>
+              {{/unless}}
+          </div>
+        </td>
+      </tr>
+
+      <script>
+        var left = {{{diff.control}}};
+        var right = {{{diff.candidate}}};
+        var delta = jsondiffpatch.diff(left, right);
+
+        // beautiful html diff
+        document.getElementById('visual-{{id}}').innerHTML = jsondiffpatch.formatters.html.format(delta, left);
+      </script>
+      {{/results}}
+      </tbody>
+    </table>
+
+

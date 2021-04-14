@@ -2,12 +2,10 @@
 import { Command } from "commander";
 import { Logger } from "./logger";
 import { ConfigProcessor } from "./config-processor";
-import {
-  Configuration,
-  EndpointConfiguration,
-} from "./model/configuration/configuration.model";
+import { Configuration, EndpointConfiguration } from "./model/configuration/configuration.model";
 import { ServiceComparator } from "./service-comparator";
 import { EndpointResult } from "./model/endpoint-result.model";
+import { HTMLReportGenerator } from "./html-report-generator";
 
 const clear = require("clear");
 const packageJson = require("./package.json");
@@ -20,10 +18,7 @@ const program = new Command();
 
 clear();
 Logger.banner("Migration Buddy");
-Logger.logColour(
-  "white",
-  `Version: ${packageJson.version}, Description: ${packageJson.description}`
-);
+Logger.logColour("white", `Version: ${packageJson.version}, Description: ${packageJson.description}`);
 Logger.linebreak();
 
 program
@@ -31,13 +26,12 @@ program
   .version(packageJson.version)
   .command("compare <config-file>", { isDefault: true })
   .description("Run endpoint comparison using the supplied comparison")
-  .option("-of, --output-file <path>", "Path to create output file")
+  .option("-ohf, --output-html-file <path>", "Path to create output HTML file")
+  .option("-ojf, --output-json-file <path>", "Path to create output JSON file")
   .option("-oc, --output-to-clipboard", "Output results to clipboard")
   .option("-v, --verbose", "Enable verbose logging / responses")
   .action(async (configFilePath, options) => {
-    const configValidator = new ConfigProcessor(
-      readConfigFile(configFilePath, options.verbose)
-    );
+    const configValidator = new ConfigProcessor(readConfigFile(configFilePath, options.verbose));
 
     const compiledConfig: {
       data?: Configuration | undefined;
@@ -55,52 +49,77 @@ program
       process.exit(-1);
     }
 
-    const serviceComparator: ServiceComparator = new ServiceComparator(
-      compiledConfig.data
-    );
+    const serviceComparator: ServiceComparator = new ServiceComparator(compiledConfig.data);
 
-    const diffMap: { [key: string]: EndpointResult } = {};
+    const resultMapWithConfig: { [key: string]: { result: EndpointResult; config: EndpointConfiguration } } = {};
 
-    const progressBar = new cliProgress.SingleBar(
-      {},
-      cliProgress.Presets.shades_classic
-    );
-    const endpoints: { [key: string]: EndpointConfiguration } =
-      compiledConfig.data.endpoints;
+    const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+    const endpoints: { [key: string]: EndpointConfiguration } = compiledConfig.data.endpoints;
     const endpointKeys: string[] = Object.keys(endpoints);
     progressBar.start(endpointKeys.length, 0);
 
     for (let i = 0; i < endpointKeys.length; i++) {
       const endpointPath: string = endpointKeys[i];
-      const endpoint: EndpointConfiguration = endpoints[endpointPath];
+      const endpointConfig: EndpointConfiguration = endpoints[endpointPath];
 
-      diffMap[endpointPath] = await serviceComparator.compare(
-        endpointPath,
-        endpoint
-      );
+      resultMapWithConfig[endpointPath] = {
+        result: await serviceComparator.compare(endpointPath, endpointConfig),
+        config: endpointConfig,
+      };
       progressBar.increment();
     }
 
     progressBar.stop();
 
-    if (!!options.outputFile) {
-      if (!options.outputFile || !options.outputFile.endsWith(".json")) {
-        Logger.error(
-          "Destination not valid, must be a valid file path ending in '.json'."
-        );
-        return;
+    const results = Object.entries(resultMapWithConfig)
+      .map(([key, value]: [string, { result: EndpointResult; config: EndpointConfiguration }]) => {
+        return { key: key, value: value.result };
+      })
+      .reduce((prev: { [key: string]: EndpointResult }, next) => {
+        prev[next.key] = next.value;
+        return prev;
+      }, {});
+
+    if (!!options.outputToClipboard || !!options.outputJsonFile || !!options.outputHtmlFile) {
+      if (!!options.outputToClipboard) {
+        clipboardy.writeSync(JSON.stringify(results, null, 2));
+        Logger.info(`Results copied to clipboard`);
       }
-      fs.writeFileSync(options.outputFile, JSON.stringify(diffMap, null, 2));
-      Logger.info(`Results written to file: ${options.outputFile}`);
+
+      if (!!options.outputJsonFile) {
+        let outputFile = options.outputJsonFile;
+        if (!outputFile) {
+          Logger.error("Destination not provided!");
+          return;
+        }
+
+        if (!outputFile.endsWith(".json")) {
+          outputFile = `${outputFile}.json`;
+        }
+
+        fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
+        Logger.info(`Results written to file: ${outputFile}`);
+      }
+
+      if (!!options.outputHtmlFile) {
+        let outputFile = options.outputHtmlFile;
+        if (!outputFile) {
+          Logger.error("Destination not provided!");
+          return;
+        }
+
+        if (!outputFile.endsWith(".html")) {
+          outputFile = `${outputFile}.html`;
+        }
+
+        const htmlReportGenerator: HTMLReportGenerator = new HTMLReportGenerator(resultMapWithConfig);
+        htmlReportGenerator.createReport(outputFile);
+        Logger.info(`Results written to file: ${outputFile}`);
+      }
     } else {
       Logger.linebreak();
       Logger.log("Results:");
-      Logger.log(diffMap as any);
-    }
-
-    if (!!options.outputToClipboard) {
-      clipboardy.writeSync(JSON.stringify(diffMap, null, 2));
-      Logger.info(`Results copied to clipboard`);
+      Logger.log(results as any);
     }
   });
 
@@ -109,9 +128,7 @@ program
   .description("Generate example configuration file to use as template")
   .action((destination) => {
     if (!destination || !destination.endsWith(".json")) {
-      Logger.error(
-        "Destination not valid, must be a valid file path ending in '.json'."
-      );
+      Logger.error("Destination not valid, must be a valid file path ending in '.json'.");
       return;
     }
     fs.writeFileSync(destination, JSON.stringify(exampleConfig, null, 2));

@@ -27,7 +27,7 @@ This utility is aimed at ensuring parity between two (currently only supports `G
 - Response time
 - Response body
 
-Using the above a 'report' is generated with the comparison results including a diff of the response bodies.
+Using the above a 'report' can be generated in both HTML and JSON formats. The HTML report includes a diff between the two response bodies.
 
 ## 🛠 Installation
 
@@ -47,7 +47,8 @@ This utility is available on NPM! Simply run the following to get started:
 
   Flags:
 
-  - `of, --output-file <path>` [Optional] - File to output results JSON to.
+  - `ohf, --output-html-file <path>` [Optional] - Path to create output HTML file.
+  - `ojf, --output-json-file <path>` [Optional] - Path to create output JSON file.
   - `-oc, --output-to-clipboard` [Optional, default false] - Copy the result JSON structure to the clipboard.
   - `-v, --verbose` [Optional, default false] - Enable verbose logging -- may help to identify errors.
   - For most up-to-date flags run `migbuddy --help`.
@@ -143,7 +144,7 @@ Each endpoint can optionally have the following properties:
 }
 ```
 
-### Example report/output
+### Example report/output (JSON)
 
 ```json
 {
@@ -170,6 +171,10 @@ Each endpoint can optionally have the following properties:
   }
 }
 ```
+
+### Example report/output (HTML)
+
+![HTML Report](https://main-site-api.jamesmcnee.com/images/other/migrationbuddy-report.png "Example HTML Report")
 
 ## Author
 

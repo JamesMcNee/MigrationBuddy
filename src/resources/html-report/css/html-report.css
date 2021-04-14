@@ -1,0 +1,17 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+.collapse-row.collapsed + tr {
+  display: none;
+}
+
+.centered {
+  text-align: center;
+}
+
+.clickable {
+  cursor: pointer;
+}
