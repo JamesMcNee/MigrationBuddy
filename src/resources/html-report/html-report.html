@@ -64,6 +64,7 @@
         </td>
       </tr>
 
+      {{#unless diff.match}}
       <script>
         var left = {{{diff.control}}};
         var right = {{{diff.candidate}}};
@@ -72,6 +73,7 @@
         // beautiful html diff
         document.getElementById('visual-{{id}}').innerHTML = jsondiffpatch.formatters.html.format(delta, left);
       </script>
+      {{/unless}}
       {{/results}}
       </tbody>
     </table>
