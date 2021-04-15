@@ -1,9 +1,5 @@
 import Ajv, { ValidateFunction } from "ajv";
-import {
-  Configuration,
-  EndpointConfiguration,
-  EndpointConfigurationOptions,
-} from "./model/configuration/configuration.model";
+import { Configuration, EndpointConfiguration, EndpointConfigurationOptions } from "./model/configuration/configuration.model";
 import { ConfigurationSchema } from "./model/configuration/configuration.schema";
 
 export class ConfigProcessor {
@@ -41,8 +37,7 @@ export class ConfigProcessor {
       [key: string]: EndpointConfiguration;
     } = Object.entries(configuration.endpoints)
       .map(([path, endpointConfig]: [string, EndpointConfiguration]) => {
-        const diffIgnoreKeysLength: string[] =
-          endpointConfig?.options?.diff?.ignoreKeys;
+        const diffIgnoreKeys: string[] = endpointConfig?.options?.diff?.ignoreKeys;
 
         return {
           key: path,
@@ -60,14 +55,12 @@ export class ConfigProcessor {
               diff: {
                 sortArrays:
                   endpointConfig?.options?.diff?.sortArrays === undefined
-                    ? configuration.configuration?.global?.options?.diff
-                        ?.sortArrays
+                    ? configuration.configuration?.global?.options?.diff?.sortArrays
                     : endpointConfig.options.diff.sortArrays,
                 ignoreKeys:
-                  diffIgnoreKeysLength?.length > 0
+                  !diffIgnoreKeys || diffIgnoreKeys?.length > 0
                     ? ConfigProcessor.distinctArray([
-                        ...(configuration.configuration?.global?.options?.diff
-                          ?.ignoreKeys || []),
+                        ...(configuration.configuration?.global?.options?.diff?.ignoreKeys || []),
                         ...(endpointConfig?.options?.diff?.ignoreKeys || []),
                       ])
                     : [],

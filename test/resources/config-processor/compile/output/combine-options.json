@@ -29,6 +29,16 @@
           "sortArrays": false
         }
       }
+    },
+    "/todos/4": {
+      "substitutions": {},
+      "headers": {},
+      "options": {
+        "diff": {
+          "ignoreKeys": ["GLOBAL_IGNORE"],
+          "sortArrays": false
+        }
+      }
     }
   },
   "configuration": {

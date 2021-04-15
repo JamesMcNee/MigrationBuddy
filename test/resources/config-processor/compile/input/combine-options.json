@@ -22,6 +22,13 @@
           "sortArrays": false
         }
       }
+    },
+    "/todos/4": {
+      "options": {
+        "diff": {
+          "sortArrays": false
+        }
+      }
     }
   },
   "configuration": {
