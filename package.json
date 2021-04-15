@@ -1,6 +1,6 @@
 {
   "name": "migrationbuddy",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "Utility to aid in the migration of endpoints (especially useful for cloud migrations)",
   "main": "./index.js",
   "bin": {
