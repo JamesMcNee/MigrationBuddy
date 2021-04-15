@@ -18,12 +18,12 @@
         <td>{{path}}</td>
         <td>
           {{#if responseTime.match}}
-          <span title="Maintained">⏺</span>
+          <span title="Maintained">⏺ (identical)</span>
           {{else}}
           {{#if responseTime.increase}}
-          <span title="Increased">🔼</span>
+          <span title="Increased">🔼 {{responseTime.metadata.percentage.value}}%</span>
           {{else}}
-          <span title="Decreased">🔽</span>
+          <span title="Decreased">🔽 {{responseTime.metadata.percentage.value}}%</span>
           {{/if}}
           {{/if}}
         </td>

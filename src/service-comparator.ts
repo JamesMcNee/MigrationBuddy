@@ -54,6 +54,9 @@ export class ServiceComparator {
         match: controlResult.responseTime === candidateResult.responseTime,
         metadata: {
           unit: "milliseconds",
+          percentage: {
+            value: Math.abs(Math.round((controlResult.responseTime / candidateResult.responseTime) * 100) - 100),
+          },
         },
       },
       responseBody: {
