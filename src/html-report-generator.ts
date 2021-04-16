@@ -43,11 +43,6 @@ export class HTMLReportGenerator {
             ...value.result.responseTime,
             increase: value.result.responseTime.control < value.result.responseTime.candidate,
           },
-          responseBody: {
-            control: value.result.responseBody.control,
-            candidate: value.result.responseBody.candidate,
-            match: value.result.responseBody.match,
-          },
           diff: {
             control: controlBodyDiffSettingsApplied,
             candidate: candidateBodyDiffSettingsApplied,
