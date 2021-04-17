@@ -2,16 +2,22 @@ import { EndpointResult } from "./model/endpoint-result.model";
 import Handlebars from "handlebars";
 import fs from "fs";
 import path from "path";
-import { EndpointConfiguration } from "./model/configuration/configuration.model";
+import { Configuration, EndpointConfiguration } from "./model/configuration/configuration.model";
 import { DiffUtils } from "./diff-utils";
 
 export class HTMLReportGenerator {
   private readonly _template: string;
   private readonly _results: { [key: string]: { result: EndpointResult; config: EndpointConfiguration } };
 
-  constructor(results: { [key: string]: { result: EndpointResult; config: EndpointConfiguration } }) {
+  constructor(results: { [key: string]: { result: EndpointResult; config: EndpointConfiguration } }, config: Configuration) {
+    const themeFiles: string[] =
+      config.configuration.global.options?.htmlReport?.theme === "dark"
+        ? ["css/bootstrap/bootstrap.dark.min.css", "css/overrides.dark.css"]
+        : ["css/bootstrap/bootstrap.flat.min.css"];
+
     this._template = this.readFilesAndCombine(
       "top.html",
+      ...themeFiles,
       "css/html.css",
       "css/annotated.css",
       "css/html-report.css",

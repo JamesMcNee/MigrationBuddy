@@ -10,7 +10,7 @@ export interface Configuration {
 export interface GlobalConfiguration {
   substitutions: { [key: string]: string | number };
   headers?: { [key: string]: string };
-  options: EndpointConfigurationOptions;
+  options: GlobalConfigurationOptions;
 }
 
 export interface ServiceConfiguration {
@@ -29,5 +29,11 @@ export interface EndpointConfigurationOptions {
   diff: {
     sortArrays: boolean;
     ignoreKeys: string[];
+  };
+}
+
+export interface GlobalConfigurationOptions extends EndpointConfigurationOptions {
+  htmlReport: {
+    theme: "light" | "dark";
   };
 }

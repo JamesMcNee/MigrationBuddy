@@ -112,7 +112,7 @@ program
           outputFile = `${outputFile}.html`;
         }
 
-        const htmlReportGenerator: HTMLReportGenerator = new HTMLReportGenerator(resultMapWithConfig);
+        const htmlReportGenerator: HTMLReportGenerator = new HTMLReportGenerator(resultMapWithConfig, compiledConfig.data);
         htmlReportGenerator.createReport(outputFile);
         Logger.info(`Results written to file: ${outputFile}`);
       }

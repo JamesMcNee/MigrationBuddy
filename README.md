@@ -85,6 +85,8 @@ Each endpoint can optionally have the following properties:
     - `diff`:
       - `sortArrays`: Boolean value indicating if arrays should be sorted (recursively) when performing the diff.
       - `ignoreKeys`: String array of keys to be ignored when performing the diff.
+    - `htmlReport`:
+      - `theme`: Specify either `light` or `dark` to choose the theme applied to the HTML report. (default `light`)
 - `control`: The 'old' service that is being replaced (this may be the same as the candidate)
   - `url`: URL of the service
   - `headers`: A JSON key value structure allowing for headers to be provided at the only to the control service.

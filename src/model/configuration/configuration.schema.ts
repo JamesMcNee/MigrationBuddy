@@ -4,6 +4,7 @@ import {
   EndpointConfiguration,
   EndpointConfigurationOptions,
   GlobalConfiguration,
+  GlobalConfigurationOptions,
   ServiceConfiguration,
 } from "./configuration.model";
 
@@ -39,6 +40,25 @@ export class ConfigurationSchema {
             items: {
               type: "string",
             },
+          },
+        },
+      },
+    },
+  };
+
+  private static _globalConfigurationOptionsSchema: JSONSchemaType<GlobalConfigurationOptions> = {
+    type: "object",
+    required: [],
+    properties: {
+      ...ConfigurationSchema._endpointOptionsSchema.properties,
+      htmlReport: {
+        type: "object",
+        required: [],
+        properties: {
+          theme: {
+            type: "string",
+            nullable: true,
+            enum: ["light", "dark"],
           },
         },
       },
@@ -95,7 +115,7 @@ export class ConfigurationSchema {
           ".{1,}": { type: "string", nullable: false },
         },
       },
-      options: ConfigurationSchema._endpointOptionsSchema,
+      options: ConfigurationSchema._globalConfigurationOptionsSchema,
     },
   };
 
