@@ -12,7 +12,7 @@ export class DiffUtils {
     return altered;
   }
 
-  private static sortArraysRecursively(obj: any) {
+  public static sortArraysRecursively(obj: any) {
     if (!obj) {
       return obj;
     }
@@ -27,7 +27,7 @@ export class DiffUtils {
     return obj;
   }
 
-  private static removeKeysRecursively(obj: any, keys: string[]) {
+  public static removeKeysRecursively(obj: any, keys: string[]) {
     if (!obj) {
       return obj;
     }
