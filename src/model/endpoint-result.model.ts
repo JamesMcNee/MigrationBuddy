@@ -1,4 +1,5 @@
 export interface EndpointResult {
+  actualPath: IndividualResult<string>;
   status: IndividualResult<number>;
   responseTime: IndividualResult<number>;
   responseBody: IndividualResult<any>;
@@ -6,8 +7,8 @@ export interface EndpointResult {
 
 export interface IndividualResult<T> {
   pretty?: string;
-  candidate: T;
   control: T;
+  candidate: T;
   match: boolean;
   metadata?: { [key: string]: any };
 }

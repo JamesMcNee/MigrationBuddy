@@ -25,19 +25,25 @@ export class ServiceComparator {
       return substitutedPath;
     };
 
-    const controlResult = await this._httpClient.get(`${this._configuration.configuration.control.url}${substitute(path)}`, {
+    const controlPath: string = substitute(path);
+    const candidatePath: string = substitute(endpointConfig.candidatePath || path);
+
+    const controlResult = await this._httpClient.get(`${this._configuration.configuration.control.url}${controlPath}`, {
       ...(this._configuration.configuration.control.headers || {}),
       ...(endpointConfig.headers || {}),
     });
-    const candidateResult = await this._httpClient.get(
-      `${this._configuration.configuration.candidate.url}${substitute(endpointConfig.candidatePath || path)}`,
-      {
-        ...(this._configuration.configuration.candidate.headers || {}),
-        ...(endpointConfig.headers || {}),
-      }
-    );
+    const candidateResult = await this._httpClient.get(`${this._configuration.configuration.candidate.url}${candidatePath}`, {
+      ...(this._configuration.configuration.candidate.headers || {}),
+      ...(endpointConfig.headers || {}),
+    });
 
     return Promise.resolve({
+      actualPath: {
+        pretty: controlPath === candidatePath ? `'${controlPath}'` : `Control: '${controlPath}'   |   Candidate: '${candidatePath}'`,
+        control: controlPath,
+        candidate: candidatePath,
+        match: controlPath === candidatePath,
+      },
       status: {
         pretty: `Control: ${controlResult.status} -> Candidate: ${candidateResult.status}`,
         control: controlResult.status,
