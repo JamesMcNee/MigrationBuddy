@@ -38,8 +38,14 @@ export class HTMLReportGenerator {
   private transformReport(data: { [key: string]: { result: EndpointResult; config: EndpointConfiguration } }): { results: any[] } {
     return {
       results: Object.entries(data).map(([key, value]: [string, { result: EndpointResult; config: EndpointConfiguration }], index: number) => {
-        const controlBodyDiffSettingsApplied = JSON.stringify(DiffUtils.format(value.result.responseBody.control, value.config.options));
-        const candidateBodyDiffSettingsApplied = JSON.stringify(DiffUtils.format(value.result.responseBody.candidate, value.config.options));
+        const isJson: boolean = value.result.responseBody.metadata?.isJson;
+
+        const controlBodyDiffSettingsApplied = isJson
+          ? JSON.stringify(DiffUtils.format(value.result.responseBody.control, value.config.options))
+          : null;
+        const candidateBodyDiffSettingsApplied = isJson
+          ? JSON.stringify(DiffUtils.format(value.result.responseBody.candidate, value.config.options))
+          : null;
 
         return {
           id: index,
@@ -53,6 +59,7 @@ export class HTMLReportGenerator {
             control: controlBodyDiffSettingsApplied,
             candidate: candidateBodyDiffSettingsApplied,
             match: controlBodyDiffSettingsApplied === candidateBodyDiffSettingsApplied,
+            error: !isJson,
           },
         };
       }),

@@ -60,9 +60,16 @@ export class ServiceComparator {
         },
       },
       responseBody: {
-        control: controlResult.body,
-        candidate: candidateResult.body,
-        match: JSON.stringify(controlResult.body) === JSON.stringify(candidateResult.body),
+        control: controlResult.response.body.value,
+        candidate: candidateResult.response.body.value,
+        match: ServiceComparator.isMatch(
+          controlResult.response.body.value,
+          candidateResult.response.body.value,
+          controlResult.response.body.isJson && candidateResult.response.body.isJson
+        ),
+        metadata: {
+          isJson: controlResult.response.body.isJson && candidateResult.response.body.isJson,
+        },
       },
     });
   }
@@ -84,5 +91,13 @@ export class ServiceComparator {
 
   private static isErrorStatus(status: number): boolean {
     return status >= 400;
+  }
+
+  private static isMatch(left: any, right: any, isJson: boolean): boolean {
+    if (isJson) {
+      return JSON.stringify(left) === JSON.stringify(right);
+    }
+
+    return left === right;
   }
 }

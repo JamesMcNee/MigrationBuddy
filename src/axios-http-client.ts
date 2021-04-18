@@ -22,7 +22,10 @@ export class AxiosHttpClient implements HttpClient {
     );
   }
 
-  public async get(url: string, headers: { [key: string]: string } | undefined): Promise<{ status: number; body: any; responseTime: number }> {
+  public async get(
+    url: string,
+    headers: { [key: string]: string } | undefined
+  ): Promise<{ status: number; response: { body: { value: any; isJson: boolean } }; responseTime: number }> {
     return axios
       .get(url, {
         headers: headers,
@@ -30,7 +33,12 @@ export class AxiosHttpClient implements HttpClient {
       .then((response: { status: number; data: any; responseTime: number }) => {
         return {
           status: response.status,
-          body: response.data,
+          response: {
+            body: {
+              value: response.data,
+              isJson: AxiosHttpClient.isJson(response.data),
+            },
+          },
           responseTime: response.responseTime,
         };
       })
@@ -39,9 +47,26 @@ export class AxiosHttpClient implements HttpClient {
 
         return {
           status: status,
-          body: error.response.data,
+          response: {
+            body: {
+              value: error.response.data,
+              isJson: AxiosHttpClient.isJson(error.response.data),
+            },
+          },
           responseTime: error.response.responseTime,
         };
       });
+  }
+
+  private static isJson(object: any): boolean {
+    try {
+      if (typeof object === "string") {
+        JSON.parse(object);
+      }
+    } catch (e) {
+      return false;
+    }
+
+    return true;
   }
 }
