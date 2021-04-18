@@ -27,8 +27,9 @@ export interface EndpointConfiguration {
 
 export interface EndpointConfigurationOptions {
   diff?: {
-    sortArrays?: boolean;
     ignoreKeys?: string[];
+    sortArrays?: boolean;
+    sortBy?: string[];
   };
 }
 

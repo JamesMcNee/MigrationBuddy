@@ -4,14 +4,16 @@
       "options": {
         "diff": {
           "ignoreKeys": ["LOCAL_IGNORE"],
-          "sortArrays": true
+          "sortArrays": true,
+          "sortBy": ["LOCAL_SORT_BY"]
         }
       }
     },
     "/todos/2": {
       "options": {
         "diff": {
-          "ignoreKeys": ["GLOBAL_IGNORE"]
+          "ignoreKeys": ["GLOBAL_IGNORE"],
+          "sortBy": []
         }
       }
     },
@@ -36,7 +38,8 @@
       "options": {
         "diff": {
           "ignoreKeys": ["GLOBAL_IGNORE"],
-          "sortArrays": true
+          "sortArrays": true,
+          "sortBy": ["GLOBAL_SORT_BY"]
         }
       }
     },

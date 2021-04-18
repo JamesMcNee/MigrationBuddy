@@ -6,7 +6,8 @@
       "options": {
         "diff": {
           "ignoreKeys": ["GLOBAL_IGNORE", "LOCAL_IGNORE"],
-          "sortArrays": true
+          "sortArrays": true,
+          "sortBy": ["LOCAL_SORT_BY"]
         }
       }
     },
@@ -16,7 +17,8 @@
       "options": {
         "diff": {
           "ignoreKeys": ["GLOBAL_IGNORE"],
-          "sortArrays": true
+          "sortArrays": true,
+          "sortBy": []
         }
       }
     },
@@ -26,7 +28,8 @@
       "options": {
         "diff": {
           "ignoreKeys": [],
-          "sortArrays": false
+          "sortArrays": false,
+          "sortBy": ["GLOBAL_SORT_BY"]
         }
       }
     },
@@ -36,7 +39,8 @@
       "options": {
         "diff": {
           "ignoreKeys": ["GLOBAL_IGNORE"],
-          "sortArrays": false
+          "sortArrays": false,
+          "sortBy": ["GLOBAL_SORT_BY"]
         }
       }
     }
@@ -46,7 +50,8 @@
       "options": {
         "diff": {
           "ignoreKeys": ["GLOBAL_IGNORE"],
-          "sortArrays": true
+          "sortArrays": true,
+          "sortBy": ["GLOBAL_SORT_BY"]
         }
       }
     },

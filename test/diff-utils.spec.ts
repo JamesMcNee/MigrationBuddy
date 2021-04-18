@@ -48,7 +48,7 @@ describe("Diff Utils", () => {
       DiffUtils.format(input, { diff: { sortArrays: true } });
 
       // Then
-      expect(DiffUtils.sortArraysRecursively).toHaveBeenCalledWith(input);
+      expect(DiffUtils.sortArraysRecursively).toHaveBeenCalledWith(input, undefined);
     });
 
     it("should not call sortArraysRecursively if option present in config as false", () => {
@@ -178,6 +178,96 @@ describe("Diff Utils", () => {
           {
             id: 3456,
             forename: "Jack",
+          },
+        ],
+      };
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("should sort a object array -- using supplied sort by keys -- one key provided", () => {
+      // Given
+      const input = {
+        id: 1234,
+        contacts: [
+          {
+            id: 3456,
+            forename: "Alice",
+          },
+          {
+            id: 2345,
+            forename: "Zach",
+          },
+          {
+            id: 2345,
+            forename: "Fred",
+          },
+        ],
+      };
+
+      // When
+      const actual = DiffUtils.sortArraysRecursively(input, ["forename"]);
+
+      // Then
+      const expected = {
+        id: 1234,
+        contacts: [
+          {
+            id: 3456,
+            forename: "Alice",
+          },
+          {
+            id: 2345,
+            forename: "Fred",
+          },
+          {
+            id: 2345,
+            forename: "Zach",
+          },
+        ],
+      };
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("should sort a object array -- using first available sort by key -- two keys provided", () => {
+      // Given
+      const input = {
+        id: 1234,
+        contacts: [
+          {
+            id: 3456,
+            forename: "Alice",
+          },
+          {
+            id: 2345,
+            forename: "Zach",
+          },
+          {
+            id: 2345,
+            forename: "Fred",
+          },
+        ],
+      };
+
+      // When
+      const actual = DiffUtils.sortArraysRecursively(input, ["missing", "forename"]);
+
+      // Then
+      const expected = {
+        id: 1234,
+        contacts: [
+          {
+            id: 3456,
+            forename: "Alice",
+          },
+          {
+            id: 2345,
+            forename: "Fred",
+          },
+          {
+            id: 2345,
+            forename: "Zach",
           },
         ],
       };

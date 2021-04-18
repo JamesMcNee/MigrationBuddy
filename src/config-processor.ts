@@ -38,6 +38,7 @@ export class ConfigProcessor {
     } = Object.entries(configuration.endpoints)
       .map(([path, endpointConfig]: [string, EndpointConfiguration]) => {
         const diffIgnoreKeys: string[] | undefined = endpointConfig?.options?.diff?.ignoreKeys;
+        const diffSortBy: string[] | undefined = endpointConfig?.options?.diff?.sortBy;
 
         return {
           key: path,
@@ -53,10 +54,6 @@ export class ConfigProcessor {
             },
             options: {
               diff: {
-                sortArrays:
-                  endpointConfig?.options?.diff?.sortArrays === undefined
-                    ? configuration.configuration?.global?.options?.diff?.sortArrays
-                    : endpointConfig.options.diff.sortArrays,
                 ignoreKeys:
                   !diffIgnoreKeys || diffIgnoreKeys?.length > 0
                     ? ConfigProcessor.distinctArray([
@@ -64,6 +61,11 @@ export class ConfigProcessor {
                         ...(endpointConfig?.options?.diff?.ignoreKeys || []),
                       ])
                     : [],
+                sortArrays:
+                  endpointConfig?.options?.diff?.sortArrays === undefined
+                    ? configuration.configuration?.global?.options?.diff?.sortArrays
+                    : endpointConfig.options.diff.sortArrays,
+                sortBy: !!diffSortBy && diffSortBy.length >= 0 ? diffSortBy : configuration.configuration?.global?.options?.diff?.sortBy,
               },
             },
           },

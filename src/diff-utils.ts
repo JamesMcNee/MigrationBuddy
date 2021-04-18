@@ -10,26 +10,36 @@ export class DiffUtils {
     }
 
     if (options?.diff?.sortArrays) {
-      altered = this.sortArraysRecursively(altered);
+      altered = this.sortArraysRecursively(altered, options.diff.sortBy);
     }
 
     return altered;
   }
 
-  public static sortArraysRecursively(obj: any) {
+  public static sortArraysRecursively(obj: any, sortBy?: string[]) {
     if (!!obj) {
       let clonedObj = cloneDeep(obj);
 
       if (clonedObj instanceof Array) {
-        clonedObj.sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
+        clonedObj.sort((a, b) => {
+          if (!!sortBy) {
+            const sortKey = sortBy.find((key) => a.hasOwnProperty(key));
+
+            if (!!sortKey) {
+              return a[sortKey].localeCompare(b[sortKey]);
+            }
+          }
+
+          return JSON.stringify(a).localeCompare(JSON.stringify(b));
+        });
 
         const newArray = [];
         for (let element of clonedObj) {
-          newArray.push(this.sortArraysRecursively(element));
+          newArray.push(this.sortArraysRecursively(element, sortBy));
         }
         clonedObj = newArray;
       } else if (typeof clonedObj === "object") {
-        Object.getOwnPropertyNames(clonedObj).forEach((key) => (clonedObj[key] = this.sortArraysRecursively(clonedObj[key])));
+        Object.getOwnPropertyNames(clonedObj).forEach((key) => (clonedObj[key] = this.sortArraysRecursively(clonedObj[key], sortBy)));
       }
 
       return clonedObj;

@@ -75,8 +75,9 @@ Each endpoint can optionally have the following properties:
 - `headers`: A JSON key value structure allowing for headers to be provided at the endpoint level.
 - `options`:
   - `diff`:
-    - `sortArrays`: Boolean value indicating if arrays should be sorted (recursively) when performing the diff.
     - `ignoreKeys`: String array of keys to be ignored when performing the diff. **Note:** Specifying an empty array `[]` has special significance. It will prevent the global config for this property being merged for this endpoint.
+    - `sortArrays`: Boolean value indicating if arrays should be sorted (recursively) when performing the diff.
+    - `sortBy`: String array of keys to be used for comparing objects when sorting arrays. **Note:** Specifying an empty array `[]` has special significance. It will prevent the global config for this property being merged for this endpoint.
 
 #### Global Config
 
@@ -85,8 +86,9 @@ Each endpoint can optionally have the following properties:
   - `headers`: A JSON key value structure allowing for headers to be provided at the global (all endpoints) level.
   - `options`:
     - `diff`:
+      - `ignoreKeys`: String array of keys to be ignored when performing the diff. **Note:** Specifying an empty array `[]` has special significance. It will prevent the global config for this property being merged for this endpoint.
       - `sortArrays`: Boolean value indicating if arrays should be sorted (recursively) when performing the diff.
-      - `ignoreKeys`: String array of keys to be ignored when performing the diff.
+      - `sortBy`: String array of keys to be used for comparing objects when sorting arrays. **Note:** Specifying an empty array `[]` has special significance. It will prevent the global config for this property being merged for this endpoint.
     - `htmlReport`:
       - `theme`: Specify either `light` or `dark` to choose the theme applied to the HTML report. (default `light`)
 - `control`: The 'old' service that is being replaced (this may be the same as the candidate)

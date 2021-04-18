@@ -39,6 +39,13 @@ export class ConfigurationSchema {
             type: "boolean",
             nullable: true,
           },
+          sortBy: {
+            type: "array",
+            nullable: true,
+            items: {
+              type: "string",
+            },
+          },
           ignoreKeys: {
             type: "array",
             nullable: true,
