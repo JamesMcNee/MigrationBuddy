@@ -2,7 +2,7 @@ import { EndpointConfigurationOptions } from "./model/configuration/configuratio
 const cloneDeep = require("lodash.clonedeep");
 
 export class DiffUtils {
-  public static format(obj: any, options: EndpointConfigurationOptions): any {
+  public static format(obj: any, options?: EndpointConfigurationOptions): any {
     let altered = { ...obj };
 
     altered = this.removeKeysRecursively(altered, options?.diff?.ignoreKeys || []);

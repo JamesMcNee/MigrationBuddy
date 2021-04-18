@@ -11,7 +11,7 @@ export class HTMLReportGenerator {
 
   constructor(results: { [key: string]: { result: EndpointResult; config: EndpointConfiguration } }, config: Configuration) {
     const themeFiles: string[] =
-      config.configuration.global.options?.htmlReport?.theme === "dark"
+      config.configuration.global?.options?.htmlReport?.theme === "dark"
         ? ["css/bootstrap/bootstrap.dark.min.css", "css/overrides.dark.css"]
         : ["css/bootstrap/bootstrap.flat.min.css"];
 

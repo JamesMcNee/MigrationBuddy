@@ -37,7 +37,7 @@ export class ConfigProcessor {
       [key: string]: EndpointConfiguration;
     } = Object.entries(configuration.endpoints)
       .map(([path, endpointConfig]: [string, EndpointConfiguration]) => {
-        const diffIgnoreKeys: string[] = endpointConfig?.options?.diff?.ignoreKeys;
+        const diffIgnoreKeys: string[] | undefined = endpointConfig?.options?.diff?.ignoreKeys;
 
         return {
           key: path,

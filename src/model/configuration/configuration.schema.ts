@@ -14,6 +14,7 @@ export class ConfigurationSchema {
   }> = {
     type: "object",
     required: [],
+    nullable: true,
     patternProperties: {
       ".{1,}": {
         oneOf: [
@@ -27,16 +28,20 @@ export class ConfigurationSchema {
   private static _endpointOptionsSchema: JSONSchemaType<EndpointConfigurationOptions> = {
     type: "object",
     required: [],
+    nullable: true,
     properties: {
       diff: {
         type: "object",
         required: [],
+        nullable: true,
         properties: {
           sortArrays: {
             type: "boolean",
+            nullable: true,
           },
           ignoreKeys: {
             type: "array",
+            nullable: true,
             items: {
               type: "string",
             },
@@ -54,6 +59,7 @@ export class ConfigurationSchema {
       htmlReport: {
         type: "object",
         required: [],
+        nullable: true,
         properties: {
           theme: {
             type: "string",
@@ -73,7 +79,10 @@ export class ConfigurationSchema {
         type: "string",
         nullable: true,
       },
-      substitutions: ConfigurationSchema._substitutionsSchema,
+      substitutions: {
+        ...ConfigurationSchema._substitutionsSchema,
+        nullable: true,
+      },
       headers: {
         type: "object",
         required: [],
@@ -82,7 +91,10 @@ export class ConfigurationSchema {
           ".{1,}": { type: "string", nullable: false },
         },
       },
-      options: ConfigurationSchema._endpointOptionsSchema,
+      options: {
+        ...ConfigurationSchema._endpointOptionsSchema,
+        nullable: true,
+      },
     },
   };
 
@@ -106,7 +118,10 @@ export class ConfigurationSchema {
     type: "object",
     required: [],
     properties: {
-      substitutions: ConfigurationSchema._substitutionsSchema,
+      substitutions: {
+        ...ConfigurationSchema._substitutionsSchema,
+        nullable: true,
+      },
       headers: {
         type: "object",
         required: [],
@@ -115,7 +130,10 @@ export class ConfigurationSchema {
           ".{1,}": { type: "string", nullable: false },
         },
       },
-      options: ConfigurationSchema._globalConfigurationOptionsSchema,
+      options: {
+        ...ConfigurationSchema._globalConfigurationOptionsSchema,
+        nullable: true,
+      },
     },
   };
 
@@ -135,7 +153,10 @@ export class ConfigurationSchema {
         type: "object",
         required: ["control", "candidate"],
         properties: {
-          global: ConfigurationSchema._globalConfigurationSchema,
+          global: {
+            ...ConfigurationSchema._globalConfigurationSchema,
+            nullable: true,
+          },
           control: ConfigurationSchema._serviceConfigurationSchema,
           candidate: ConfigurationSchema._serviceConfigurationSchema,
         },

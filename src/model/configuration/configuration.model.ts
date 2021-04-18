@@ -1,16 +1,16 @@
 export interface Configuration {
   endpoints: { [key: string]: EndpointConfiguration };
   configuration: {
-    global: GlobalConfiguration;
+    global?: GlobalConfiguration;
     control: ServiceConfiguration;
     candidate: ServiceConfiguration;
   };
 }
 
 export interface GlobalConfiguration {
-  substitutions: { [key: string]: string | number };
+  substitutions?: { [key: string]: string | number };
   headers?: { [key: string]: string };
-  options: GlobalConfigurationOptions;
+  options?: GlobalConfigurationOptions;
 }
 
 export interface ServiceConfiguration {
@@ -20,20 +20,20 @@ export interface ServiceConfiguration {
 
 export interface EndpointConfiguration {
   candidatePath?: string;
-  substitutions: { [key: string]: string | number };
+  substitutions?: { [key: string]: string | number };
   headers?: { [key: string]: string };
-  options: EndpointConfigurationOptions;
+  options?: EndpointConfigurationOptions;
 }
 
 export interface EndpointConfigurationOptions {
-  diff: {
-    sortArrays: boolean;
-    ignoreKeys: string[];
+  diff?: {
+    sortArrays?: boolean;
+    ignoreKeys?: string[];
   };
 }
 
 export interface GlobalConfigurationOptions extends EndpointConfigurationOptions {
-  htmlReport: {
-    theme: "light" | "dark";
+  htmlReport?: {
+    theme?: "light" | "dark";
   };
 }
