@@ -32,9 +32,7 @@ describe("Configuration Processor", () => {
       const input = require("./resources/config-processor/compile/input/combine-substitutions.json");
 
       // When
-      const actual: Configuration | undefined = new ConfigProcessor(
-        input
-      ).compile().data;
+      const actual: Configuration | undefined = new ConfigProcessor(input).compile().data;
 
       // Then
       const expected = require("./resources/config-processor/compile/output/combine-substitutions.json") as Configuration;
@@ -47,9 +45,7 @@ describe("Configuration Processor", () => {
       const input = require("./resources/config-processor/compile/input/combine-headers.json");
 
       // When
-      const actual: Configuration | undefined = new ConfigProcessor(
-        input
-      ).compile().data;
+      const actual: Configuration | undefined = new ConfigProcessor(input).compile().data;
 
       // Then
       const expected = require("./resources/config-processor/compile/output/combine-headers.json") as Configuration;
@@ -62,14 +58,24 @@ describe("Configuration Processor", () => {
       const input = require("./resources/config-processor/compile/input/combine-options.json");
 
       // When
-      const actual: Configuration | undefined = new ConfigProcessor(
-        input
-      ).compile().data;
+      const actual: Configuration | undefined = new ConfigProcessor(input).compile().data;
 
       // Then
       const expected = require("./resources/config-processor/compile/output/combine-options.json") as Configuration;
 
       expect(actual).toEqual(expected);
+    });
+
+    it("should fail to compile an invalid schema", () => {
+      // Given
+      const input = {};
+
+      // When
+      const actual: { data?: Configuration | undefined; errors?: any } = new ConfigProcessor(input as any).compile();
+
+      // Then
+      expect(actual.data).toBeUndefined();
+      expect(actual.errors).toBeTruthy();
     });
   });
 });
