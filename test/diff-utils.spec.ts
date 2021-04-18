@@ -4,6 +4,33 @@ const cloneDeep = require("lodash.clonedeep");
 
 describe("Diff Utils", () => {
   describe("sortArraysRecursively", () => {
+    it("should handle null/undefined values", () => {
+      // Given
+      const input = null;
+
+      // When
+      const actual = DiffUtils.sortArraysRecursively(input);
+
+      // Then
+      expect(actual).toBeNull();
+    });
+
+    it("should not mutate the original input object", () => {
+      // Given
+      const input = {
+        id: 1234,
+        hobbies: ["Fishing", "Basketball", "Swimming"],
+      };
+
+      const clonedInput = cloneDeep(input);
+
+      // When
+      DiffUtils.sortArraysRecursively(input);
+
+      // Then
+      expect(input).toEqual(clonedInput);
+    });
+
     it("should sort a string array alphabetically", () => {
       // Given
       const input = {

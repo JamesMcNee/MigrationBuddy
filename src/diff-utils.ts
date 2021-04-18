@@ -14,15 +14,22 @@ export class DiffUtils {
   }
 
   public static sortArraysRecursively(obj: any) {
-    if (!obj) {
-      return obj;
-    }
+    if (!!obj) {
+      let clonedObj = cloneDeep(obj);
 
-    if (obj instanceof Array) {
-      obj.sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
-      obj.forEach((item) => this.sortArraysRecursively(item));
-    } else if (typeof obj === "object") {
-      Object.getOwnPropertyNames(obj).forEach((key) => this.sortArraysRecursively(obj[key]));
+      if (clonedObj instanceof Array) {
+        clonedObj.sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
+
+        const newArray = [];
+        for (let element of clonedObj) {
+          newArray.push(this.sortArraysRecursively(element));
+        }
+        clonedObj = newArray;
+      } else if (typeof clonedObj === "object") {
+        Object.getOwnPropertyNames(clonedObj).forEach((key) => (clonedObj[key] = this.sortArraysRecursively(clonedObj[key])));
+      }
+
+      return clonedObj;
     }
 
     return obj;
