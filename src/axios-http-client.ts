@@ -16,17 +16,13 @@ export class AxiosHttpClient implements HttpClient {
         return x;
       },
       (x: any) => {
-        x.response.responseTime =
-          new Date().getTime() - x.config.meta.requestStartedAt;
+        x.response.responseTime = new Date().getTime() - x.config.meta.requestStartedAt;
         throw x;
       }
     );
   }
 
-  public async get(
-    url: string,
-    headers: { [key: string]: string } | undefined
-  ): Promise<{ status: number; body: any; responseTime: number }> {
+  public async get(url: string, headers: { [key: string]: string } | undefined): Promise<{ status: number; body: any; responseTime: number }> {
     return axios
       .get(url, {
         headers: headers,
@@ -38,26 +34,14 @@ export class AxiosHttpClient implements HttpClient {
           responseTime: response.responseTime,
         };
       })
-      .catch(
-        (error: {
-          response: { status: number; data: any; responseTime: number };
-        }) => {
-          const status = error.response.status;
+      .catch((error: { response: { status: number; data: any; responseTime: number } }) => {
+        const status = error.response.status;
 
-          if (status >= 400 && status < 500) {
-            return {
-              status: status,
-              body: error.response.data,
-              responseTime: error.response.responseTime,
-            };
-          }
-
-          return {
-            status: status,
-            body: undefined,
-            responseTime: error.response.responseTime,
-          };
-        }
-      );
+        return {
+          status: status,
+          body: error.response.data,
+          responseTime: error.response.responseTime,
+        };
+      });
   }
 }
