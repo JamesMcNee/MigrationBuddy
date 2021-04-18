@@ -37,6 +37,8 @@ This utility is available on NPM! Simply run the following to get started:
 
 ## 🚀 Usage
 
+**Note**: Both `migbuddy` and `migrationbuddy` are available as commands and are identical in function.
+
 - Generate a configuration file template/example
 
   `migbuddy generate <path/to/write/file.json>`
