@@ -4,14 +4,17 @@ const cloneDeep = require("lodash.clonedeep");
 
 describe("Diff Utils", () => {
   describe("format", () => {
+    beforeEach(() => {
+      spyOn(DiffUtils, "removeKeysRecursively");
+      spyOn(DiffUtils, "sortArraysRecursively");
+    });
+
     it("should call removeKeysRecursively if option present in config", () => {
       // Given
       const input = {
         id: 1234,
         hobbies: ["Fishing", "Basketball", "Swimming"],
       };
-
-      DiffUtils.removeKeysRecursively = jest.fn();
 
       // When
       DiffUtils.format(input, { diff: { ignoreKeys: ["test"] } });
@@ -27,8 +30,6 @@ describe("Diff Utils", () => {
         hobbies: ["Fishing", "Basketball", "Swimming"],
       };
 
-      DiffUtils.removeKeysRecursively = jest.fn();
-
       // When
       DiffUtils.format(input, {});
 
@@ -43,8 +44,6 @@ describe("Diff Utils", () => {
         hobbies: ["Fishing", "Basketball", "Swimming"],
       };
 
-      DiffUtils.sortArraysRecursively = jest.fn();
-
       // When
       DiffUtils.format(input, { diff: { sortArrays: true } });
 
@@ -58,8 +57,6 @@ describe("Diff Utils", () => {
         id: 1234,
         hobbies: ["Fishing", "Basketball", "Swimming"],
       };
-
-      DiffUtils.sortArraysRecursively = jest.fn();
 
       // When
       DiffUtils.format(input, { diff: { sortArrays: false } });
