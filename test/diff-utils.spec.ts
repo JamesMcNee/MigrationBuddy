@@ -3,6 +3,88 @@ import { DiffUtils } from "../src/diff-utils";
 const cloneDeep = require("lodash.clonedeep");
 
 describe("Diff Utils", () => {
+  describe("format", () => {
+    it("should call removeKeysRecursively if option present in config", () => {
+      // Given
+      const input = {
+        id: 1234,
+        hobbies: ["Fishing", "Basketball", "Swimming"],
+      };
+
+      DiffUtils.removeKeysRecursively = jest.fn();
+
+      // When
+      DiffUtils.format(input, { diff: { ignoreKeys: ["test"] } });
+
+      // Then
+      expect(DiffUtils.removeKeysRecursively).toHaveBeenCalledWith(input, ["test"]);
+    });
+
+    it("should not call removeKeysRecursively if option not present in config", () => {
+      // Given
+      const input = {
+        id: 1234,
+        hobbies: ["Fishing", "Basketball", "Swimming"],
+      };
+
+      DiffUtils.removeKeysRecursively = jest.fn();
+
+      // When
+      DiffUtils.format(input, {});
+
+      // Then
+      expect(DiffUtils.removeKeysRecursively).toHaveBeenCalledTimes(0);
+    });
+
+    it("should call sortArraysRecursively if option present and true in config", () => {
+      // Given
+      const input = {
+        id: 1234,
+        hobbies: ["Fishing", "Basketball", "Swimming"],
+      };
+
+      DiffUtils.sortArraysRecursively = jest.fn();
+
+      // When
+      DiffUtils.format(input, { diff: { sortArrays: true } });
+
+      // Then
+      expect(DiffUtils.sortArraysRecursively).toHaveBeenCalledWith(input);
+    });
+
+    it("should not call sortArraysRecursively if option present in config as false", () => {
+      // Given
+      const input = {
+        id: 1234,
+        hobbies: ["Fishing", "Basketball", "Swimming"],
+      };
+
+      DiffUtils.sortArraysRecursively = jest.fn();
+
+      // When
+      DiffUtils.format(input, { diff: { sortArrays: false } });
+
+      // Then
+      expect(DiffUtils.sortArraysRecursively).toHaveBeenCalledTimes(0);
+    });
+
+    it("should not call sortArraysRecursively if option not present in config", () => {
+      // Given
+      const input = {
+        id: 1234,
+        hobbies: ["Fishing", "Basketball", "Swimming"],
+      };
+
+      DiffUtils.sortArraysRecursively = jest.fn();
+
+      // When
+      DiffUtils.format(input, {});
+
+      // Then
+      expect(DiffUtils.sortArraysRecursively).toHaveBeenCalledTimes(0);
+    });
+  });
+
   describe("sortArraysRecursively", () => {
     it("should handle null/undefined values", () => {
       // Given

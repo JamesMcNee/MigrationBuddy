@@ -5,7 +5,10 @@ export class DiffUtils {
   public static format(obj: any, options?: EndpointConfigurationOptions): any {
     let altered = { ...obj };
 
-    altered = this.removeKeysRecursively(altered, options?.diff?.ignoreKeys || []);
+    if (!!options?.diff?.ignoreKeys) {
+      altered = this.removeKeysRecursively(altered, options.diff.ignoreKeys);
+    }
+
     if (options?.diff?.sortArrays) {
       altered = this.sortArraysRecursively(altered);
     }
