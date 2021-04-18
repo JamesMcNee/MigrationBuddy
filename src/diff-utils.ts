@@ -1,4 +1,5 @@
 import { EndpointConfigurationOptions } from "./model/configuration/configuration.model";
+const cloneDeep = require("lodash.clonedeep");
 
 export class DiffUtils {
   public static format(obj: any, options: EndpointConfigurationOptions): any {
@@ -28,17 +29,25 @@ export class DiffUtils {
   }
 
   public static removeKeysRecursively(obj: any, keys: string[]) {
-    if (!obj) {
-      return obj;
-    }
+    if (!!obj) {
+      let clonedObj = cloneDeep(obj);
 
-    if (obj instanceof Array) {
-      obj.forEach((item) => this.removeKeysRecursively(item, keys));
-    } else if (typeof obj === "object") {
-      Object.getOwnPropertyNames(obj).forEach((key) => {
-        if (keys.indexOf(key) !== -1) delete obj[key];
-        else this.removeKeysRecursively(obj[key], keys);
-      });
+      if (clonedObj instanceof Array) {
+        const newArray = [];
+        for (let element of clonedObj) {
+          newArray.push(this.removeKeysRecursively(element, keys));
+        }
+        clonedObj = newArray;
+      } else if (typeof clonedObj === "object") {
+        Object.getOwnPropertyNames(clonedObj).forEach((key) => {
+          if (keys.indexOf(key) !== -1) delete clonedObj[key];
+          else {
+            clonedObj[key] = this.removeKeysRecursively(clonedObj[key], keys);
+          }
+        });
+      }
+
+      return clonedObj;
     }
 
     return obj;

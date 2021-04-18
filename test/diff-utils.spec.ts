@@ -1,5 +1,7 @@
 import { DiffUtils } from "../src/diff-utils";
 
+const cloneDeep = require("lodash.clonedeep");
+
 describe("Diff Utils", () => {
   describe("sortArraysRecursively", () => {
     it("should sort a string array alphabetically", () => {
@@ -102,6 +104,34 @@ describe("Diff Utils", () => {
   });
 
   describe("removeKeysRecursively", () => {
+    it("should handle null/undefined values", () => {
+      // Given
+      const input = null;
+
+      // When
+      const actual = DiffUtils.removeKeysRecursively(input, ["id"]);
+
+      // Then
+      expect(actual).toBeNull();
+    });
+
+    it("should not mutate the original input object", () => {
+      // Given
+      const input = {
+        id: 1234,
+        forename: "John",
+        surname: "Smith",
+      };
+
+      const clonedInput = cloneDeep(input);
+
+      // When
+      DiffUtils.removeKeysRecursively(input, ["id"]);
+
+      // Then
+      expect(input).toEqual(clonedInput);
+    });
+
     it("should remove the specified key from a single leveled object", () => {
       // Given
       const input = {
