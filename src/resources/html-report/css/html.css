@@ -147,3 +147,15 @@ ul.jsondiffpatch-textdiff {
   color: white;
   font-weight: bold;
 }
+
+.negative {
+  color: #ba0f0f;
+}
+
+.positive {
+  color: #589e0e;
+}
+
+.neutral {
+  color: #e08600;
+}

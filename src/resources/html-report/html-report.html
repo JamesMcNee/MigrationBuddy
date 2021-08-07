@@ -18,37 +18,37 @@
         <td>{{path}}</td>
         <td>
           {{#if responseTime.match}}
-          <span title="Maintained">⏺ (identical)</span>
+          <span title="Maintained">{{ responseTime.candidate }}ms <i class="far fa-circle neutral"></i></span>
           {{else}}
           {{#if responseTime.increase}}
-          <span title="Increased">🔼 {{responseTime.metadata.percentage.value}}%</span>
+          <span title="Increased">{{ responseTime.control }}ms ({{ responseTime.candidate }}ms) <i class="fas fa-arrow-up negative"></i></span>
           {{else}}
-          <span title="Decreased">🔽 {{responseTime.metadata.percentage.value}}%</span>
+          <span title="Decreased">{{ responseTime.control }}ms ({{ responseTime.candidate }}ms) <i class="fas fa-arrow-down positive"></i></span>
           {{/if}}
           {{/if}}
         </td>
         <td>
           {{#if status.match}}
-          <span title="Match">✅</span>
+          <span title="Match"><i class="fas fa-check positive"></i></span>
           {{else}}
-          <span title="No Match">❌</span>
+          <span title="No Match"><i class="fas fa-times negative"></i></span>
           {{/if}}
         </td>
         <td>
           {{#if status.metadata.eitherPathErrored}}
-          <span title="Error">❌</span>
+          <span title="Error"><i class="fas fa-times negative"></i></span>
           {{else}}
-          <span title="Success">✅</span>
+          <span title="Success"><i class="fas fa-check positive"></i></span>
           {{/if}}
         </td>
         <td>
           {{#if diff.error}}
-            <span title="Content not JSON">?️</span>
+            <span title="Content not JSON"><i class="fas fa-question neutral"></i>️</span>
           {{else}}
             {{#if diff.match}}
-              <span title="Match">✅</span>
+              <span title="Match"><i class="fas fa-check positive"></i></span>
             {{else}}
-              <span title="No Match">❌</span>
+              <span title="No Match"><i class="fas fa-times negative"></i></span>
             {{/if}}
           {{/if}}
         </td>

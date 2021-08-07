@@ -81,18 +81,7 @@ export class ServiceComparator {
   }
 
   private static createResponseTimeString(leftMillis: number, rightMillis: number): string {
-    const percentage = Math.round((leftMillis / rightMillis) * 100);
-
-    let percentageString = "";
-    if (percentage > 100) {
-      percentageString = `${percentage - 100}% faster`;
-    } else if (percentage === 100) {
-      percentageString = `response times identical`;
-    } else {
-      percentageString = `${100 - percentage}% slower`;
-    }
-
-    return `Control: ${leftMillis}ms -> Candidate: ${rightMillis}ms (${percentageString})`;
+    return `Control: ${leftMillis}ms -> Candidate: ${rightMillis}ms`;
   }
 
   private static isErrorStatus(status: number): boolean {
