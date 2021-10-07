@@ -5,8 +5,8 @@ const cloneDeep = require("lodash.clonedeep");
 describe("Diff Utils", () => {
   describe("format", () => {
     beforeEach(() => {
-      spyOn(DiffUtils, "removeKeysRecursively");
-      spyOn(DiffUtils, "sortArraysRecursively");
+      jest.spyOn(DiffUtils, "removeKeysRecursively");
+      jest.spyOn(DiffUtils, "sortArraysRecursively");
     });
 
     it("should call removeKeysRecursively if option present in config", () => {
