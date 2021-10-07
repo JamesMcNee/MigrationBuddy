@@ -1,8 +1,8 @@
 
-    <table class="table table-hover">
+    <table class="table table-hover" style="table-layout: fixed; word-wrap: break-word;">
       <thead class="thead-dark">
         <tr class="centered">
-          <th scope="col">Endpoint</th>
+          <th scope="col" style="width: 25%;">Endpoint</th>
           <th scope="col">Response Time</th>
           <th scope="col">Status Match</th>
           <th scope="col">2xx Status</th>
@@ -15,7 +15,7 @@
               data-toggle="collapse"
               data-target="#accordion-{{id}}"
               class="clickable collapse-row collapsed centered">
-        <td>{{path}}</td>
+        <td style="width: 25%;">{{path}}</td>
         <td>
           {{#if responseTime.match}}
           <span title="Maintained">{{ responseTime.candidate }}ms <i class="far fa-circle neutral"></i></span>
