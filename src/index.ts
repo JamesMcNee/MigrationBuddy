@@ -148,7 +148,7 @@ function readConfigFile(path: string, verboseLogging: boolean = false): JSON {
     let message: string = `Error reading config file. Ensure file exists and is valid JSON.`;
 
     if (verboseLogging) {
-      Logger.errorWithStack(message, e);
+      Logger.errorWithStack(message, <Error>e);
     } else {
       Logger.error(message);
     }
