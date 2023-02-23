@@ -40,12 +40,14 @@ export class HTMLReportGenerator {
       results: Object.entries(data).map(([key, value]: [string, { result: EndpointResult; config: EndpointConfiguration }], index: number) => {
         const isJson: boolean = value.result.responseBody.metadata?.isJson;
 
-        const controlBodyDiffSettingsApplied = isJson
-          ? JSON.stringify(DiffUtils.format(value.result.responseBody.control, value.config.options))
-          : null;
-        const candidateBodyDiffSettingsApplied = isJson
-          ? JSON.stringify(DiffUtils.format(value.result.responseBody.candidate, value.config.options))
-          : null;
+        const controlBodyDiffSettingsApplied =
+          isJson && value.config.options?.diff?.enabled
+            ? JSON.stringify(DiffUtils.format(value.result.responseBody.control, value.config.options))
+            : null;
+        const candidateBodyDiffSettingsApplied =
+          isJson && value.config.options?.diff?.enabled
+            ? JSON.stringify(DiffUtils.format(value.result.responseBody.candidate, value.config.options))
+            : null;
 
         return {
           id: index,

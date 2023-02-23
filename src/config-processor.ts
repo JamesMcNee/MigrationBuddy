@@ -54,6 +54,10 @@ export class ConfigProcessor {
             },
             options: {
               diff: {
+                enabled:
+                  endpointConfig?.options?.diff?.enabled === undefined
+                    ? configuration.configuration?.global?.options?.diff?.enabled ?? true
+                    : endpointConfig.options.diff.enabled,
                 ignoreKeys:
                   !diffIgnoreKeys || diffIgnoreKeys?.length > 0
                     ? ConfigProcessor.distinctArray([

@@ -35,6 +35,10 @@ export class ConfigurationSchema {
         required: [],
         nullable: true,
         properties: {
+          enabled: {
+            type: "boolean",
+            nullable: true,
+          },
           sortArrays: {
             type: "boolean",
             nullable: true,
