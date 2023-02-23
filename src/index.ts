@@ -6,6 +6,7 @@ import { Configuration, EndpointConfiguration } from "./model/configuration/conf
 import { ServiceComparator } from "./service-comparator";
 import { EndpointResult } from "./model/endpoint-result.model";
 import { HTMLReportGenerator } from "./html-report-generator";
+import { format } from "date-fns";
 
 const clear = require("clear");
 const packageJson = require("./package.json");
@@ -28,6 +29,7 @@ program
   .description("Run endpoint comparison using the supplied comparison")
   .option("-ohf, --output-html-file <path>", "Path to create output HTML file")
   .option("-ojf, --output-json-file <path>", "Path to create output JSON file")
+  .option("--include-timestamp-in-file-name", "Include a timestamp in the file name")
   .option("-oc, --output-to-clipboard", "Output results to clipboard")
   .option("-v, --verbose", "Enable verbose logging / responses")
   .action(async (configFilePath, options) => {
@@ -88,9 +90,9 @@ program
 
       if (!!options.outputJsonFile) {
         let outputFile = options.outputJsonFile;
-        if (!outputFile) {
-          Logger.error("Destination not provided!");
-          return;
+
+        if (options.includeTimestampInFileName) {
+          outputFile = `${outputFile}-${format(new Date(), "dd-MM-yyyy'T'HHmm")}`;
         }
 
         if (!outputFile.endsWith(".json")) {
@@ -103,9 +105,9 @@ program
 
       if (!!options.outputHtmlFile) {
         let outputFile = options.outputHtmlFile;
-        if (!outputFile) {
-          Logger.error("Destination not provided!");
-          return;
+
+        if (options.includeTimestampInFileName) {
+          outputFile = `${outputFile}-${format(new Date(), "dd-MM-yyyy'T'HHmm")}`;
         }
 
         if (!outputFile.endsWith(".html")) {

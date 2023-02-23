@@ -1,6 +1,6 @@
 {
   "name": "migrationbuddy",
-  "version": "4.9.0",
+  "version": "4.9.0-beta",
   "description": "Utility to aid in the migration of endpoints (especially useful for cloud migrations)",
   "main": "./index.js",
   "bin": {
@@ -34,6 +34,7 @@
     "cli-progress": "^3.8.2",
     "clipboardy": "^2.3.0",
     "commander": "^7.2.0",
+    "date-fns": "^2.29.3",
     "figlet": "^1.5.0",
     "handlebars": "^4.7.7",
     "lodash.clonedeep": "^4.5.0"
