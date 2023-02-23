@@ -8,6 +8,7 @@ import { EndpointResult } from "./model/endpoint-result.model";
 import { HTMLReportGenerator } from "./html-report-generator";
 import { format } from "date-fns";
 
+const pLimit = require("p-limit");
 const clear = require("clear");
 const packageJson = require("./package.json");
 const exampleConfig = require("./resources/mibration-buddy-config.json");
@@ -30,6 +31,7 @@ program
   .option("-ohf, --output-html-file <path>", "Path to create output HTML file")
   .option("-ojf, --output-json-file <path>", "Path to create output JSON file")
   .option("--include-timestamp-in-file-name", "Include a timestamp in the file name")
+  .option("-c, --concurrency <concurrency>", "How many concurrent endpoints to process", (concurrentString) => Number.parseInt(concurrentString), 1)
   .option("-oc, --output-to-clipboard", "Output results to clipboard")
   .option("-v, --verbose", "Enable verbose logging / responses")
   .action(async (configFilePath, options) => {
@@ -51,25 +53,29 @@ program
       process.exit(-1);
     }
 
+    Logger.info(`Starting now! -- Using a concurrency setting of: '${options.concurrency}'`);
+
     const serviceComparator: ServiceComparator = new ServiceComparator(compiledConfig.data);
 
     const resultMapWithConfig: { [key: string]: { result: EndpointResult; config: EndpointConfiguration } } = {};
 
     const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
     const endpoints: { [key: string]: EndpointConfiguration } = compiledConfig.data.endpoints;
-    const endpointKeys: string[] = Object.keys(endpoints);
-    progressBar.start(endpointKeys.length, 0);
+    progressBar.start(Object.keys(endpoints).length, 0);
 
-    for (let i = 0; i < endpointKeys.length; i++) {
-      const endpointPath: string = endpointKeys[i];
-      const endpointConfig: EndpointConfiguration = endpoints[endpointPath];
+    const limit = pLimit(options.concurrency);
 
-      resultMapWithConfig[endpointPath] = {
-        result: await serviceComparator.compare(endpointPath, endpointConfig),
-        config: endpointConfig,
-      };
-      progressBar.increment();
-    }
+    const limitedPromiseFunctions = Object.entries(endpoints)
+      .map(async ([endpointPath, endpointConfig]) => {
+        resultMapWithConfig[endpointPath] = {
+          result: await serviceComparator.compare(endpointPath, endpointConfig),
+          config: endpointConfig,
+        };
+        progressBar.increment();
+      })
+      .map((promise) => limit(() => promise));
+
+    await Promise.all(limitedPromiseFunctions);
 
     progressBar.stop();
 
