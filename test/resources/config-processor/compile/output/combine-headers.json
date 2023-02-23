@@ -9,6 +9,7 @@
       },
       "options": {
         "diff": {
+          "enabled": true,
           "ignoreKeys": []
         }
       }

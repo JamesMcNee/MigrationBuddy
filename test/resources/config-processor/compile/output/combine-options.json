@@ -5,6 +5,7 @@
       "headers": {},
       "options": {
         "diff": {
+          "enabled": true,
           "ignoreKeys": ["GLOBAL_IGNORE", "LOCAL_IGNORE"],
           "sortArrays": true,
           "sortBy": ["LOCAL_SORT_BY"]
@@ -16,6 +17,7 @@
       "headers": {},
       "options": {
         "diff": {
+          "enabled": true,
           "ignoreKeys": ["GLOBAL_IGNORE"],
           "sortArrays": true,
           "sortBy": []
@@ -27,6 +29,7 @@
       "headers": {},
       "options": {
         "diff": {
+          "enabled": true,
           "ignoreKeys": [],
           "sortArrays": false,
           "sortBy": ["GLOBAL_SORT_BY"]
@@ -38,6 +41,7 @@
       "headers": {},
       "options": {
         "diff": {
+          "enabled": true,
           "ignoreKeys": ["GLOBAL_IGNORE"],
           "sortArrays": false,
           "sortBy": ["GLOBAL_SORT_BY"]
