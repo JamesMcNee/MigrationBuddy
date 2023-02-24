@@ -65,15 +65,15 @@ program
 
     const limit = pLimit(options.concurrency);
 
-    const limitedPromiseFunctions = Object.entries(endpoints)
-      .map(async ([endpointPath, endpointConfig]) => {
+    const limitedPromiseFunctions = Object.entries(endpoints).map(([endpointPath, endpointConfig]) =>
+      limit(async () => {
         resultMapWithConfig[endpointPath] = {
           result: await serviceComparator.compare(endpointPath, endpointConfig),
           config: endpointConfig,
         };
         progressBar.increment();
       })
-      .map((promise) => limit(() => promise));
+    );
 
     await Promise.all(limitedPromiseFunctions);
 
